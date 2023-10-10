@@ -1,0 +1,187 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Health Tracker API
+  description: This API provides endpoints for handling CRUD operations on the Health Tracker data.
+  contact:
+    name: Uchechukwu Henry Ezeigwe
+    email: 20104352@mail.wit.ie
+paths:
+  /api/users:
+    get:
+      responses:
+        200:
+          description: This is a list of users in the app
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                 $ref: '#/components/schemas/User'
+    post:
+      description: Add a user to the app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: The user has been created
+                
+  /api/users/{user-id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/UserIdPath'
+      responses: 
+        200: 
+          description: This is a specific user in the app
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    patch:
+      parameters:
+        - $ref: '#/components/parameters/UserIdPath'
+      responses:
+        200:
+          description: User has been successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/UserIdPath'
+      responses:
+        204:
+          description: User deleted successfully
+  /api/users/email/{email}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/EmailIdPath'
+      responses:
+        200:
+          description: This is a specific email of a user in the app
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /api/users/{user-id}/activities:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/UserIdPath'
+      responses:
+        200:
+          description: This is a specific activity of a user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/UserIdPath'
+      responses:
+        204:
+          description: User activity has been successfully deleted
+          
+  /api/activities:
+    get:
+      responses:
+        200:
+          description: This is a list of users in the app
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                 $ref: '#/components/schemas/Activities'
+    post:
+      description: New activity added to the app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activities'
+      responses:
+        200:
+          description: An activity has been added
+          
+  /api/activities/{activity-id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/ActivityIdPath'
+      responses:
+        200:
+          description: This is a specific activity of a user in the app
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activities'
+    patch:
+      parameters:
+        - $ref: '#/components/parameters/ActivityIdPath'
+      responses:
+        200:
+          description: Activity has been successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activities'
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/ActivityIdPath'
+      responses:
+        204:
+          description: User activity has been successfully deleted
+
+components:
+  parameters:
+    UserIdPath:
+      in: path
+      name: user-id
+      description: user id path parameter
+      required: true
+      schema:
+        type: integer
+        example: 3232
+    EmailIdPath:
+      name: email
+      in: path
+      description: email id path parameter
+      required: true
+      schema:
+        type: string
+        example: henry@ezeigwe.com
+    ActivityIdPath:
+      name: activity-id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 3232
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 3232
+        name:
+          type: string
+          example: Henry Ezeigwe
+        email:
+          type: string
+          example: henry@ezeigwe.com
+    Activities:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 3232
+        title:
+          type: string
+          example: learning
+        description:
+          type: string
+          example: Various forms of skill development, studying, or exploring new subjects
