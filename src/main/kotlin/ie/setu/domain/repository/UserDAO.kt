@@ -20,9 +20,10 @@ class UserDAO {
 
     fun findById(id: Int): User?{
         return transaction {
-            Users.select() {Users.id eq id}
-            .map { mapToUser(it) }
-            .firstOrNull()
+            Users.select() {
+                Users.id eq id}
+                .map{mapToUser(it)}
+                .firstOrNull()
         }
     }
 
