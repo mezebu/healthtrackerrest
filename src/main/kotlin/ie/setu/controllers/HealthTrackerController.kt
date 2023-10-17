@@ -3,12 +3,17 @@ package ie.setu.controllers
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import ie.setu.domain.repository.UserDAO
+import ie.setu.domain.repository.ActivityDAO
 import io.javalin.http.Context
 import ie.setu.domain.User
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.joda.JodaModule
+import ie.setu.domain.Activity
 
 object HealthTrackerController {
 
     private val userDao = UserDAO()
+    private val activityDAO = ActivityDAO()
 
     fun getAllUsers(ctx: Context) {
         ctx.json(userDao.getAll())
@@ -48,4 +53,19 @@ object HealthTrackerController {
         ctx.json(updatedUser)
     }
 
+    //--------------------------------------------------------------
+    // ActivityDAOI specifics
+    //-------------------------------------------------------------
+
+    fun getAllActivities(ctx: Context) {
+        //mapper handles the deserialization of Joda date into a String.
+        val mapper = jacksonObjectMapper()
+            .registerModule(JodaModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        ctx.json(mapper.writeValueAsString(activityDAO.getAll()))
+    }
+
+
+
 }
+
