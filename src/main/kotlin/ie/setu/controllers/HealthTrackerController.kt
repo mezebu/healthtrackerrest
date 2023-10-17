@@ -8,7 +8,6 @@ import io.javalin.http.Context
 import ie.setu.domain.User
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.joda.JodaModule
-import ie.setu.domain.Activity
 
 object HealthTrackerController {
 
