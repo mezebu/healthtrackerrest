@@ -17,7 +17,7 @@ paths:
               schema:
                 type: array
                 items:
-                 $ref: '#/components/schemas/User'
+                  $ref: '#/components/schemas/User'
     post:
       description: Add a user to the app
       requestBody:
@@ -77,7 +77,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Activity'
     delete:
       parameters:
         - $ref: '#/components/parameters/UserIdPath'
@@ -95,14 +95,14 @@ paths:
               schema:
                 type: array
                 items:
-                 $ref: '#/components/schemas/Activities'
+                  $ref: '#/components/schemas/Activity'
     post:
       description: New activity added to the app
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Activities'
+              $ref: '#/components/schemas/Activity'
       responses:
         200:
           description: An activity has been added
@@ -117,7 +117,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Activities'
+                $ref: '#/components/schemas/Activity'
     patch:
       parameters:
         - $ref: '#/components/parameters/ActivityIdPath'
@@ -127,7 +127,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Activities'
+                $ref: '#/components/schemas/Activity'
     delete:
       parameters:
         - $ref: '#/components/parameters/ActivityIdPath'
@@ -173,7 +173,7 @@ components:
         email:
           type: string
           example: henry@ezeigwe.com
-    Activities:
+    Activity:
       type: object
       properties:
         id:
