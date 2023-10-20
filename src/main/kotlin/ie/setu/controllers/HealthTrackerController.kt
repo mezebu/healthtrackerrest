@@ -57,16 +57,15 @@ object HealthTrackerController {
     // ActivityDAOI specifics
     //-------------------------------------------------------------
 
-    //--------------------------------------------------------------
-    // ActivityDAOI specifics
-    //-------------------------------------------------------------
-
     fun getAllActivities(ctx: Context) {
         //mapper handles the deserialization of Joda date into a String.
         val mapper = jacksonObjectMapper()
             .registerModule(JodaModule())
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         ctx.json(mapper.writeValueAsString(activityDAO.getAll()))
+    }
+
+    fun getActivityById(ctx: Context) {
     }
 
     fun getActivitiesByUserId(ctx: Context) {
