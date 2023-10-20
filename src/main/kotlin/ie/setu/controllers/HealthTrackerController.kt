@@ -62,7 +62,7 @@ object HealthTrackerController {
         val mapper = jacksonObjectMapper()
             .registerModule(JodaModule())
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-        ctx.json(mapper.writeValueAsString(activityDAO.getAll()))
+        ctx.json(mapper.writeValueAsString( activityDAO.getAll() ))
     }
 
     fun getActivityById(ctx: Context) {
