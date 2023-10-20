@@ -50,4 +50,12 @@ class ActivityDAO {
         }
     }
 
+    //Delete all activities associated with a user
+    fun deleteUserActivities(userId: Int){
+        transaction {
+            Activities.deleteWhere { Activities.userId eq userId }
+        }
+    }
+
+
 }
