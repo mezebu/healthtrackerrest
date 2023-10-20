@@ -101,7 +101,7 @@ object HealthTrackerController {
 
     fun deleteAllUserActivities(ctx: Context) {
         val userId = ctx.pathParam("user-id").toInt()
-        
+
         val user = userDao.findById(userId)
         if (user != null) {
             activityDAO.deleteUserActivities(userId)
