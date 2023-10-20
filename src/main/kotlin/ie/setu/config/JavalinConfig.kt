@@ -42,7 +42,6 @@ class JavalinConfig {
             }
             path("/api/activities") {
                 get(HealthTrackerController::getAllActivities)
-                get(HealthTrackerController::getActivityById)
                 post(HealthTrackerController::addActivity)
             }
         }
