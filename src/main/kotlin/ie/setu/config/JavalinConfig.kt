@@ -34,7 +34,7 @@ class JavalinConfig {
                     patch(HealthTrackerController::updateUser)
                     path("activities"){
                         get(HealthTrackerController::getActivitiesByUserId)
-                        get(HealthTrackerController::deleteAllUserActivities)
+                        delete(HealthTrackerController::deleteAllUserActivities)
                     }
                 }
                 path("email/{email}"){
