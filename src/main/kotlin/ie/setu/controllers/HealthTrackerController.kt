@@ -58,13 +58,16 @@ object HealthTrackerController {
     //-------------------------------------------------------------
 
     fun getAllActivities(ctx: Context) {
-        //mapper handles the deserialization of Joda date into a String.
-        val mapper = jacksonObjectMapper()
-            .registerModule(JodaModule())
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-        ctx.json(mapper.writeValueAsString(activityDAO.getAll()))
+        try {
+            val mapper = jacksonObjectMapper()
+                .registerModule(JodaModule())
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+            val activities = mapper.writeValueAsString(activityDAO.getAll())
+            ctx.json(activities)
+        } catch (e: Exception) {
+            ctx.status(500).json("Error occurred during serialization.")
+        }
     }
-
     fun getActivityById(ctx: Context) {
         val activityId = activityDAO.findByActivityId(ctx.pathParam("activity-id").toInt())
 
