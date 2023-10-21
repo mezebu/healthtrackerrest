@@ -54,7 +54,7 @@ object HealthTrackerController {
     }
 
     //--------------------------------------------------------------
-    // ActivityDAOI specifics
+    // ActivityDAO specifics
     //-------------------------------------------------------------
 
     fun getAllActivities(ctx: Context) {
