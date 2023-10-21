@@ -86,7 +86,7 @@
             <artifactId>kotlin-logging</artifactId>
             <version>1.12.5</version>
         </dependency>
-        <!--  json dependency for serialising joda date time  -->
+        <!-- json dependency for serialising joda date time -->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
