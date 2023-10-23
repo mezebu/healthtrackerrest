@@ -7,6 +7,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import ie.setu.domain.Activity
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.UserDAO
+import ie.setu.utils.jsonObjectMapper
 import io.javalin.http.Context
 
 object ActivityController {
@@ -16,9 +17,7 @@ object ActivityController {
 
     fun getAllActivities(ctx: Context) {
         try {
-            val mapper = jacksonObjectMapper()
-                .registerModule(JodaModule())
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+            val mapper = jsonObjectMapper()
             val activities = mapper.writeValueAsString(activityDAO.getAll())
             ctx.json(activities)
         } catch (e: Exception) {
