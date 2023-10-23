@@ -27,16 +27,11 @@ object UserController {
         userDao.save(user)
         ctx.json(user)
     }
-
-
-    fun getUsersByEmail(ctx: Context) {
-        val userEmail = ctx.pathParam("email")
-        val email = userDao.findByEmail(userEmail)
-
-        if (email != null) {
-            ctx.json(email)
-        } else {
-            ctx.status(404)
+    
+    fun getUserByEmail(ctx: Context) {
+        val user = userDao.findByEmail(ctx.pathParam("email"))
+        if (user != null) {
+            ctx.json(user)
         }
     }
 
