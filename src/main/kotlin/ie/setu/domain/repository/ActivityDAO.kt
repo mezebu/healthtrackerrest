@@ -50,6 +50,19 @@ class ActivityDAO {
         }
     }
 
+    //Update Specific activity
+    fun updateSpecificActivity(id: Int, activity: Activity){
+        transaction {
+            Activities.update({ Activities.id eq activity.id}) {
+                it[description] = activity.description
+                it[duration] = activity.duration
+                it[started] = activity.started
+                it[calories] = activity.calories
+                it[userId] = activity.userId
+            }
+        }
+    }
+
     //Delete specific activity
     fun deleteSpecificActivity(activityId: Int) {
         transaction {

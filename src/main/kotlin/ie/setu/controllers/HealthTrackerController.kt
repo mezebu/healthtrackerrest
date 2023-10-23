@@ -102,6 +102,15 @@ object HealthTrackerController {
         ctx.json(activity)
     }
 
+    fun updateActivity(ctx: Context) {
+        val activityId = ctx.pathParam("activity-id").toInt()
+        val mapper = jacksonObjectMapper()
+            .registerModule(JodaModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        val updatedActivity = mapper.readValue<Activity>(ctx.body())
+        activityDAO.updateSpecificActivity(activityId, updatedActivity)
+    }
+
     fun deleteAllUserActivities(ctx: Context) {
         val userId = ctx.pathParam("user-id").toInt()
 
