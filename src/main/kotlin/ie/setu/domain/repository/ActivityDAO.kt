@@ -53,7 +53,7 @@ class ActivityDAO {
     //Update Specific activity
     fun updateSpecificActivity(id: Int, activity: Activity){
         transaction {
-            Activities.update({ Activities.id eq activity.id}) {
+            Activities.update({ Activities.id eq id}) {
                 it[description] = activity.description
                 it[duration] = activity.duration
                 it[started] = activity.started
