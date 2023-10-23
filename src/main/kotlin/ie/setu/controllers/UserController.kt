@@ -30,9 +30,14 @@ object UserController {
 
 
     fun getUsersByEmail(ctx: Context) {
-        val user = userDao.findByEmail(ctx.pathParam("email"))
-        if (user != null) {
-            ctx.json(user)
+        val userEmail = ctx.pathParam("email")
+        val email = userDao.findByEmail(userEmail)
+
+        if (email != null) {
+            ctx.json(email)
+        } else {
+            ctx.status(404)
+            ctx.json("User with email not found")
         }
     }
 
