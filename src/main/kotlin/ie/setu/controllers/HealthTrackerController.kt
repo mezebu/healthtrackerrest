@@ -111,6 +111,15 @@ object HealthTrackerController {
         }
     }
 
+    fun deleteActivity(ctx: Context) {
+        val activityId = ctx.pathParam("activity-id").toInt()
+
+        val activity = activityDAO.findByActivityId(activityId)
+        if(activity != null) {
+            activityDAO.deleteSpecificActivity(activityId)
+        }
+    }
+
 
 
 }
