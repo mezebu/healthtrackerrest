@@ -47,6 +47,7 @@ class JavalinConfig {
                 path("{activity-id}"){
                     get(HealthTrackerController::getActivityById)
                     delete(HealthTrackerController::deleteActivity)
+                    patch(HealthTrackerController::updateActivity)
                 }
             }
         }
