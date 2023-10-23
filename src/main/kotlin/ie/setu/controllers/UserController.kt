@@ -37,7 +37,6 @@ object UserController {
             ctx.json(email)
         } else {
             ctx.status(404)
-            ctx.json("User with email not found")
         }
     }
 
