@@ -39,7 +39,7 @@ class JavalinConfig {
                     }
                 }
                 path("email/{email}"){
-                    get(UserController::getUsersByEmail)
+                    get(UserController::getUserByEmail)
                 }
             }
             path("/api/activities") {
