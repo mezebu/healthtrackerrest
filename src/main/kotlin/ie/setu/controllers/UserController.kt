@@ -33,7 +33,6 @@ object UserController {
         val user = userDao.findByEmail(email)
         if (user != null) {
             ctx.json(user)
-            ctx.json(email)
         }
     }
 
