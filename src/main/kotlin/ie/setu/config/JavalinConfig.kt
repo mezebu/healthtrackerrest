@@ -38,7 +38,7 @@ class JavalinConfig {
                         delete(ActivityController::deleteAllUserActivities)
                     }
                 }
-                path("email/{email}"){
+                path("/email/{email}"){
                     get(UserController::getUserByEmail)
                 }
             }
