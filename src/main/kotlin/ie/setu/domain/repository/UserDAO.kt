@@ -34,10 +34,11 @@ class UserDAO {
         }
     }
 
-    fun findByEmail(email: String): User? {
+    fun findByEmail(email: String) :User?{
         return transaction {
-            Users.select() { Users.email eq email }
-                .map { mapToUser(it) }
+            Users.select() {
+                Users.email eq email}
+                .map{mapToUser(it)}
                 .firstOrNull()
         }
     }
