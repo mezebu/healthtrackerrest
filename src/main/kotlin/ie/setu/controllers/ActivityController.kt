@@ -13,20 +13,20 @@ object ActivityController {
     private val activityDAO = ActivityDAO()
 
     fun getAllActivities(ctx: Context) {
-        try {
             val mapper = jsonObjectMapper()
             val activities = mapper.writeValueAsString(activityDAO.getAll())
             ctx.json(activities)
-        } catch (e: Exception) {
-            ctx.status(500).json("Error occurred during serialization.")
-        }
     }
+    
     fun getActivityById(ctx: Context) {
         val activityId = activityDAO.findByActivityId(ctx.pathParam("activity-id").toInt())
 
-        if(activityId != null) {
+        if (activityId != null) {
             val mapper = jsonObjectMapper()
             ctx.json(mapper.writeValueAsString(activityId))
+        } else {
+            ctx.status(404)
+            ctx.json("Activity not found")
         }
     }
 
@@ -62,6 +62,9 @@ object ActivityController {
 
         if (user != null) {
            activityDAO.deleteUserActivities(userId)
+        } else {
+            ctx.status(404)
+            ctx.json("User not found")
         }
     }
 
@@ -71,6 +74,9 @@ object ActivityController {
 
         if(activity != null) {
             activityDAO.deleteSpecificActivity(activityId)
+        } else {
+            ctx.status(404)
+            ctx.json("Activity not found")
         }
     }
 

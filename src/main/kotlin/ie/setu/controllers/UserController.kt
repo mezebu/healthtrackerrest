@@ -18,6 +18,8 @@ object UserController {
         val user = userDao.findById(ctx.pathParam("user-id").toInt())
         if(user != null) {
             ctx.json(user)
+        } else {
+            ctx.status(404).json("User ID not found")
         }
     }
 
@@ -33,6 +35,8 @@ object UserController {
         val user = userDao.findByEmail(email)
         if (user != null) {
             ctx.json(user)
+        } else {
+            ctx.status(404).json("User not found for email: $email")
         }
     }
 
