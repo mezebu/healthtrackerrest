@@ -9,11 +9,18 @@ import ie.setu.domain.repository.UserDAO
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.joda.time.DateTime
 
-const val nonExistingEmail = "112233445566778testUser@xxxxx.xx"
-const val validName = "Test User 1"
-const val validEmail = "testuser1@test.com"
+ val nonExistingEmail = "112233445566778testUser@xxxxx.xx"
+ val validName = "Test User 1"
+ val validEmail = "testuser1@test.com"
+ val updatedName = "Updated Name"
+ val updatedEmail = "Updated Email"
 
-val users = arrayListOf(
+val updatedDescription = "Updated Description"
+val updatedDuration = 30.0
+val updatedCalories = 945
+val updatedStarted = DateTime.parse("2020-06-11T05:59:27.258Z")
+
+val users = arrayListOf<User>(
     User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1),
     User(name = "Bob Cat", email = "bob@cat.ie", id = 2),
     User(name = "Mary Contrary", email = "mary@contrary.com", id = 3),
@@ -21,7 +28,7 @@ val users = arrayListOf(
 )
 
 
-val activities = arrayListOf(
+val activities = arrayListOf<Activity>(
     Activity(id = 1, description = "Running", duration = 22.0, calories = 230, started = DateTime.now(), userId = 1),
     Activity(id = 2, description = "Hopping", duration = 10.5, calories = 80, started = DateTime.now(), userId = 1),
     Activity(id = 3, description = "Walking", duration = 12.0, calories = 120, started = DateTime.now(), userId = 2)
