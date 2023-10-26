@@ -41,8 +41,7 @@ class UserDAO {
                 .firstOrNull()
         }
     }
-
-
+    
     fun delete(id: Int) {
         return transaction { Users.deleteWhere { Users.id eq id } }
     }
