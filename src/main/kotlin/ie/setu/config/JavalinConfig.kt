@@ -35,7 +35,7 @@ class JavalinConfig {
                     patch(UserController::updateUser)
                     path("activities"){
                         get(ActivityController::getActivitiesByUserId)
-                        delete(ActivityController::deleteAllUserActivities)
+                        delete(ActivityController::deleteActivityByUserId)
                     }
                 }
                 path("/email/{email}"){
@@ -46,8 +46,8 @@ class JavalinConfig {
                 get(ActivityController::getAllActivities)
                 post(ActivityController::addActivity)
                 path("{activity-id}"){
-                    get(ActivityController::getActivityById)
-                    delete(ActivityController::deleteActivity)
+                    get(ActivityController::getActivitiesByActivityId)
+                    delete(ActivityController::deleteActivityByActivityId)
                     patch(ActivityController::updateActivity)
                 }
             }
