@@ -30,7 +30,7 @@ class JavalinConfig {
                 get(UserController::getAllUsers)
                 post(UserController::addUser)
                 path("{user-id}"){
-                    get(UserController::getUserById)
+                    get(UserController::getUserByUserId)
                     delete(UserController::deleteUser)
                     patch(UserController::updateUser)
                     path("activities"){
