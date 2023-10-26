@@ -79,5 +79,5 @@ object ActivityController {
         val updatedActivity = mapper.readValue<Activity>(ctx.body())
         activityDAO.updateByActivityId(activityId, updatedActivity)
     }
-    
+
 }
