@@ -34,8 +34,11 @@ object UserController {
     fun addUser(ctx: Context) {
         val user : User = jsonToObject(ctx.body())
         val userId = userDao.save(user)
-        ctx.json(userId)
-        ctx.status(201)
+        if (userId != null) {
+            user.id = userId
+            ctx.json(user)
+            ctx.status(201)
+        }
     }
 
     fun getUserByEmail(ctx: Context) {
@@ -49,8 +52,11 @@ object UserController {
         }
     }
 
-    fun deleteUser(ctx: Context) {
-        userDao.delete(ctx.pathParam("user-id").toInt())
+    fun deleteUser(ctx: Context){
+        if (userDao.delete(ctx.pathParam("user-id").toInt()) != 0)
+            ctx.status(204)
+        else
+            ctx.status(404)
     }
 
     fun updateUser(ctx: Context){
