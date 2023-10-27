@@ -240,6 +240,41 @@ class HealthTrackerControllerTest {
     }
 
 
+    @Nested
+    inner class CreateActivities {
+
+        @Test
+        fun `add an activity when a user exists for it, returns a 201 response`() {
+
+            //Arrange - add a user and an associated activity that we plan to do a delete on
+            val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
+
+            val addActivityResponse = addActivity(
+                activities[0].description, activities[0].duration,
+                activities[0].calories, activities[0].started, addedUser.id
+            )
+            assertEquals(201, addActivityResponse.status)
+
+            //After - delete the user (Activity will cascade delete in the database)
+            deleteUser(addedUser.id)
+        }
+
+        @Test
+        fun `add an activity when no user exists for it, returns a 404 response`() {
+
+            //Arrange - check there is no user for -1 id
+            val userId = -1
+            assertEquals(404, retrieveUserById(userId).status)
+
+            val addActivityResponse = addActivity(
+                activities.get(0).description, activities.get(0).duration,
+                activities.get(0).calories, activities.get(0).started, userId
+            )
+            assertEquals(404, addActivityResponse.status)
+        }
+    }
+
+
     //--------------------------------------------------------------------------------------
     // HELPER METHODS - could move them into a test utility class when submitting assignment
     //--------------------------------------------------------------------------------------
