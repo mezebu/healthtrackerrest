@@ -274,6 +274,56 @@ class HealthTrackerControllerTest {
         }
     }
 
+    @Nested
+    inner class UpdateActivities {
+
+        @Test
+        fun `updating an activity by activity id when it doesn't exist, returns a 404 response`() {
+            val userId = -1
+            val activityID = -1
+
+            //Arrange - check there is no user for -1 id
+            assertEquals(404, retrieveUserById(userId).status)
+
+            //Act & Assert - attempt to update the details of an activity/user that doesn't exist
+            assertEquals(
+                404, updateActivity(
+                    activityID, updatedDescription, updatedDuration,
+                    updatedCalories, updatedStarted, userId
+                ).status
+            )
+        }
+
+        @Test
+        fun `updating an activity by activity id when it exists, returns 204 response`() {
+
+            //Arrange - add a user and an associated activity that we plan to do an update on
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addActivityResponse = addActivity(
+                activities[0].description,
+                activities[0].duration, activities[0].calories,
+                activities[0].started, addedUser.id)
+            assertEquals(201, addActivityResponse.status)
+            val addedActivity = jsonNodeToObject<Activity>(addActivityResponse)
+
+            //Act & Assert - update the added activity and assert a 204 is returned
+            val updatedActivityResponse = updateActivity(addedActivity.id, updatedDescription,
+                updatedDuration, updatedCalories, updatedStarted, addedUser.id)
+            assertEquals(204, updatedActivityResponse.status)
+
+            //Assert that the individual fields were all updated as expected
+            val retrievedActivityResponse = retrieveActivityByActivityId(addedActivity.id)
+            val updatedActivity = jsonNodeToObject<Activity>(retrievedActivityResponse)
+            assertEquals(updatedDescription,updatedActivity.description)
+            assertEquals(updatedDuration, updatedActivity.duration, 0.1)
+            assertEquals(updatedCalories, updatedActivity.calories)
+            assertEquals(updatedStarted, updatedActivity.started )
+
+            //After - delete the user
+            deleteUser(addedUser.id)
+        }
+    }
+
 
     //--------------------------------------------------------------------------------------
     // HELPER METHODS - could move them into a test utility class when submitting assignment
