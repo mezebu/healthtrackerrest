@@ -10,7 +10,6 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import kong.unirest.HttpResponse
 import kong.unirest.JsonNode
 
-
 inline fun <reified T: Any> jsonToObject(json: String) : T
         = jacksonObjectMapper()
     .registerModule(JodaModule())
