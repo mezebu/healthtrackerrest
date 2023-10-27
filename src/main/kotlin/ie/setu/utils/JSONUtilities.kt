@@ -10,13 +10,15 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import kong.unirest.HttpResponse
 import kong.unirest.JsonNode
 
-
 inline fun <reified T: Any> jsonToObject(json: String) : T
         = jacksonObjectMapper()
     .registerModule(JodaModule())
     .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
     .readValue<T>(json)
 
+inline fun <reified T: Any>  jsonNodeToObject(jsonNode : HttpResponse<JsonNode>) : T {
+    return jsonToObject<T>(jsonNode.body.toString())
+}
 
 fun jsonObjectMapper(): ObjectMapper
         = ObjectMapper()

@@ -8,6 +8,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActivityDAO {
 
+
     //Get all the activities in the database regardless of user id
     fun getAll(): ArrayList<Activity> {
         val activitiesList: ArrayList<Activity> = arrayListOf()
@@ -38,44 +39,40 @@ class ActivityDAO {
     }
 
     //Save an activity to the database
-    fun save(activity: Activity){
-        transaction {
+    fun save(activity: Activity): Int {
+        return transaction {
             Activities.insert {
                 it[description] = activity.description
                 it[duration] = activity.duration
-                it[started] = activity.started
                 it[calories] = activity.calories
+                it[started] = activity.started
                 it[userId] = activity.userId
             }
-        }
+        } get Activities.id
     }
 
-    //Update Specific activity
-    fun updateByActivityId(id: Int, activityToUpdate: Activity): Int{
-       return transaction {
-            Activities.update({ Activities.id eq id}) {
+    fun updateByActivityId(activityId: Int, activityToUpdate: Activity) : Int{
+        return transaction {
+            Activities.update ({
+                Activities.id eq activityId}) {
                 it[description] = activityToUpdate.description
                 it[duration] = activityToUpdate.duration
-                it[started] = activityToUpdate.started
                 it[calories] = activityToUpdate.calories
+                it[started] = activityToUpdate.started
                 it[userId] = activityToUpdate.userId
             }
         }
     }
 
-    //Delete specific activity
-    fun deleteByActivityId(activityId: Int) {
-        transaction {
+    fun deleteByActivityId (activityId: Int): Int{
+        return transaction{
             Activities.deleteWhere { Activities.id eq activityId }
         }
     }
 
-    //Delete all activities associated with a user
-    fun deleteByUserId(userId: Int){
-        transaction {
+    fun deleteByUserId (userId: Int): Int{
+        return transaction{
             Activities.deleteWhere { Activities.userId eq userId }
         }
     }
-
-
 }
