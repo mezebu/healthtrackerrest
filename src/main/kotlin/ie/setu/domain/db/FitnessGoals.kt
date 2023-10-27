@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.Table
 
 object FitnessGoals: Table("fitness-goals") {
     val id = integer("id").autoIncrement().primaryKey()
-    val goalType = varchar("type", 100)
+    val goalType = varchar("goal_type", 100)
     val target = double("target")
     val startDate = datetime("start_date")
     val endDate = datetime("end_date")
