@@ -6,7 +6,7 @@ import ie.setu.domain.db.Activities
 import ie.setu.domain.db.Users
 import org.jetbrains.exposed.sql.ResultRow
 
-fun mapToUser(it: ResultRow): User = User(
+fun mapToUser(it: ResultRow) = User(
     id = it[Users.id],
     name = it[Users.name],
     email = it[Users.email]

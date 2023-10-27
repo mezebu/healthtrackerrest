@@ -1,9 +1,11 @@
 package ie.setu.controllers
 
 import ie.setu.config.DbConfig
+import ie.setu.domain.Activity
 import ie.setu.domain.User
 import ie.setu.helpers.ServerContainer
 import ie.setu.helpers.*
+import ie.setu.utils.jsonNodeToObject
 import ie.setu.utils.jsonToObject
 import kong.unirest.HttpResponse
 import kong.unirest.JsonNode
@@ -170,6 +172,70 @@ class HealthTrackerControllerTest {
             //Act & Assert - attempt to retrieve the deleted user --> 404 response
             assertEquals(404, retrieveUserById(addedUser.id).status)
         }
+
+    }
+
+
+
+    @Nested
+    inner class ReadActivities {
+
+        @Test
+        fun `get all activities from the database returns 200 or 404 response`() {
+            val response = retrieveAllActivities()
+            if (response.status == 200){
+                val retrievedActivities = jsonNodeToObject<Array<Activity>>(response)
+                assertNotEquals(0, retrievedActivities.size)
+            }
+            else{
+                assertEquals(404, response.status)
+            }
+        }
+
+        @Test
+        fun `get all activities by user id when user and activities exists returns 200 response`() {
+            //Arrange - add a user and 3 associated activities that we plan to retrieve
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            addActivity(
+                activities[0].description, activities[0].duration,
+                activities[0].calories, activities[0].started, addedUser.id)
+            addActivity(
+                activities[1].description, activities[1].duration,
+                activities[1].calories, activities[1].started, addedUser.id)
+            addActivity(
+                activities[2].description, activities[2].duration,
+                activities[2].calories, activities[2].started, addedUser.id)
+
+            //Assert and Act - retrieve the three added activities by user id
+            val response = retrieveActivitiesByUserId(addedUser.id)
+            assertEquals(200, response.status)
+            val retrievedActivities = jsonNodeToObject<Array<Activity>>(response)
+            assertEquals(3, retrievedActivities.size)
+
+            //After - delete the added user and assert a 204 is returned (activities are cascade deleted)
+            assertEquals(204, deleteUser(addedUser.id).status)
+        }
+
+        @Test
+        fun `get all activities by user id when no user exists returns 404 response`() {
+            //Arrange
+            val userId = -1
+
+            //Assert and Act - retrieve activities by user id
+            val response = retrieveActivitiesByUserId(userId)
+            assertEquals(404, response.status)
+        }
+
+        @Test
+        fun `get activity by activity id when no activity exists returns 404 response`() {
+            //Arrange
+            val activityId = -1
+            //Assert and Act - attempt to retrieve the activity by activity id
+            val response = retrieveActivityByActivityId(activityId)
+            assertEquals(404, response.status)
+        }
+
+
 
     }
 
