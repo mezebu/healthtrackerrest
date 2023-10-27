@@ -246,7 +246,7 @@ class HealthTrackerControllerTest {
         @Test
         fun `add an activity when a user exists for it, returns a 201 response`() {
 
-            //Arrange - add a user and an associated activity that we plan to do a delete on
+            //Arrange - add a user and an associated activity that we plan to do a deleted on
             val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
 
             val addActivityResponse = addActivity(
@@ -321,6 +321,71 @@ class HealthTrackerControllerTest {
 
             //After - delete the user
             deleteUser(addedUser.id)
+        }
+    }
+
+
+    @Nested
+    inner class DeleteActivities {
+
+        @Test
+        fun `deleting an activity by activity id when it doesn't exist, returns a 404 response`() {
+            //Act & Assert - attempt to delete a user that doesn't exist
+            assertEquals(404, deleteActivityByActivityId(-1).status)
+        }
+
+        @Test
+        fun `deleting activities by user id when it doesn't exist, returns a 404 response`() {
+            //Act & Assert - attempt to delete a user that doesn't exist
+            assertEquals(404, deleteActivitiesByUserId(-1).status)
+        }
+
+        @Test
+        fun `deleting an activity by id when it exists, returns a 204 response`() {
+
+            //Arrange - add a user and an associated activity that we plan to do a deleted on
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addActivityResponse = addActivity(
+                activities[0].description, activities[0].duration,
+                activities[0].calories, activities[0].started, addedUser.id)
+            assertEquals(201, addActivityResponse.status)
+
+            //Act & Assert - delete the added activity and assert a 204 is returned
+            val addedActivity = jsonNodeToObject<Activity>(addActivityResponse)
+            assertEquals(204, deleteActivityByActivityId(addedActivity.id).status)
+
+            //After - delete the user
+            deleteUser(addedUser.id)
+        }
+
+        @Test
+        fun `deleting all activities by userid when it exists, returns a 204 response`() {
+
+            //Arrange - add a user and 3 associated activities that we plan to do a cascade delete
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addActivityResponse1 = addActivity(
+                activities[0].description, activities[0].duration,
+                activities[0].calories, activities[0].started, addedUser.id)
+            assertEquals(201, addActivityResponse1.status)
+            val addActivityResponse2 = addActivity(
+                activities[1].description, activities[1].duration,
+                activities[1].calories, activities[1].started, addedUser.id)
+            assertEquals(201, addActivityResponse2.status)
+            val addActivityResponse3 = addActivity(
+                activities[2].description, activities[2].duration,
+                activities[2].calories, activities[2].started, addedUser.id)
+            assertEquals(201, addActivityResponse3.status)
+
+            //Act & Assert - delete the added user and assert a 204 is returned
+            assertEquals(204, deleteUser(addedUser.id).status)
+
+            //Act & Assert - attempt to retrieve the deleted activities
+            val addedActivity1 = jsonNodeToObject<Activity>(addActivityResponse1)
+            val addedActivity2 = jsonNodeToObject<Activity>(addActivityResponse2)
+            val addedActivity3 = jsonNodeToObject<Activity>(addActivityResponse3)
+            assertEquals(404, retrieveActivityByActivityId(addedActivity1.id).status)
+            assertEquals(404, retrieveActivityByActivityId(addedActivity2.id).status)
+            assertEquals(404, retrieveActivityByActivityId(addedActivity3.id).status)
         }
     }
 
