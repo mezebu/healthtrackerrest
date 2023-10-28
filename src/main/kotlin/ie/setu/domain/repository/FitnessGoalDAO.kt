@@ -77,6 +77,5 @@ class FitnessGoalDAO {
             FitnessGoals.deleteWhere { FitnessGoals.userId eq userId }
         }
     }
-
-
+    
 }
