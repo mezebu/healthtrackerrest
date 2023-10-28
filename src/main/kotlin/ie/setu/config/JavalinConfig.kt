@@ -58,7 +58,7 @@ class JavalinConfig {
                     patch(ActivityController::updateActivity)
                 }
             }
-            path("/api/fitness-goals") {
+            path("/api/goals") {
                 get(FitnessGoalController::getAllFitnessGoals)
                 post(FitnessGoalController::addFitnessGoal)
             }
