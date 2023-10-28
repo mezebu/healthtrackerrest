@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.Table
 // SRP - Responsibility is to manage one Fitness Goal.
 //       Database wise, this is the table object.
 
-object FitnessGoals: Table("fitness_goals") {
+object FitnessGoals: Table("goals") {
     val id = integer("id").autoIncrement().primaryKey()
     val goalType = varchar("goal_type", 100)
     val target = double("target")
