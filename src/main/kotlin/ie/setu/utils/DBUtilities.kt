@@ -27,6 +27,7 @@ fun mapToFitnessGoal(it: ResultRow) = FitnessGoal(
     id = it[FitnessGoals.id],
     goalType = it[FitnessGoals.goalType],
     target = it[FitnessGoals.target],
+    calories = it[FitnessGoals.calories],
     startDate = it[FitnessGoals.startDate],
     endDate = it[FitnessGoals.endDate],
     userId = it[FitnessGoals.userId]
