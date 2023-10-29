@@ -67,6 +67,7 @@ class FitnessGoalDAO {
             }
         }
     }
+    
 
     //delete a specific fitness goal in the database by id
     fun deleteFitnessGoalById(goalId: Int): Int {
