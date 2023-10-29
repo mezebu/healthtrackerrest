@@ -44,7 +44,8 @@ class FitnessGoalDAO {
             FitnessGoals.insert{
                 it[goalType] = goal.goalType
                 it[target] = goal.target
-                it[calories] = goal.calories
+                it[duration] = goal.duration
+                it[initialUserStatus] = goal.initialUserStatus
                 it[startDate] = goal.startDate
                 it[endDate] = goal.endDate
                 it[userId] = goal.userId
@@ -58,13 +59,15 @@ class FitnessGoalDAO {
             FitnessGoals.update ({FitnessGoals.id eq goalId}) {
                 it[goalType] = goalToUpdate.goalType
                 it[target] = goalToUpdate.target
-                it[calories] = goalToUpdate.calories
+                it[duration] = goalToUpdate.duration
+                it[initialUserStatus] = goalToUpdate.initialUserStatus
                 it[startDate] = goalToUpdate.startDate
                 it[endDate] = goalToUpdate.endDate
                 it[userId] = goalToUpdate.userId
             }
         }
     }
+    
 
     //delete a specific fitness goal in the database by id
     fun deleteFitnessGoalById(goalId: Int): Int {
