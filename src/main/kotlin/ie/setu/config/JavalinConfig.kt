@@ -1,6 +1,7 @@
 package ie.setu.config
 
 import ie.setu.controllers.ActivityController
+import ie.setu.controllers.FitnessGoalController
 import ie.setu.utils.jsonObjectMapper
 import ie.setu.controllers.UserController
 import io.javalin.Javalin
@@ -56,6 +57,10 @@ class JavalinConfig {
                     delete(ActivityController::deleteActivityByActivityId)
                     patch(ActivityController::updateActivity)
                 }
+            }
+            path("/api/goals") {
+                get(FitnessGoalController::getAllFitnessGoals)
+                post(FitnessGoalController::addFitnessGoal)
             }
         }
     }
