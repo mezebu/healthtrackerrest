@@ -92,6 +92,5 @@ object FitnessGoalController {
             ctx.status(404)
         }
     }
-
-
+    
 }
