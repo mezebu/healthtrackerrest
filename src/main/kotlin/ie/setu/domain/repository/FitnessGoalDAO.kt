@@ -20,7 +20,7 @@ class FitnessGoalDAO {
     }
 
     //Find a specific fitness goal by fitness goal id
-    fun findById(id: Int): FitnessGoal? {
+    fun findByFitnessGoalId(id: Int): FitnessGoal? {
         return transaction {
             FitnessGoals
                 .select { FitnessGoals.id eq id }
@@ -70,14 +70,14 @@ class FitnessGoalDAO {
     
 
     //delete a specific fitness goal in the database by id
-    fun deleteFitnessGoalById(goalId: Int): Int {
+    fun deleteByFitnessGoalId(goalId: Int): Int {
         return transaction {
             FitnessGoals.deleteWhere { FitnessGoals.id eq goalId }
         }
     }
 
     //delete a specific fitness goal in the database by the user id
-    fun deleteFitnessGoalByUserId(userId: Int): Int {
+    fun deleteByUserId(userId: Int): Int {
         return transaction {
             FitnessGoals.deleteWhere { FitnessGoals.userId eq userId }
         }

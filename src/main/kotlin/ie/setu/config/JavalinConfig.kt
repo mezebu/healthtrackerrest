@@ -44,6 +44,10 @@ class JavalinConfig {
                         get(ActivityController::getActivitiesByUserId)
                         delete(ActivityController::deleteActivityByUserId)
                     }
+                    path("goals") {
+                        get(FitnessGoalController::getFitnessGoalsByUserId)
+                        delete(FitnessGoalController::deleteFitnessGoalByUserId)
+                    }
                 }
                 path("/email/{email}"){
                     get(UserController::getUserByEmail)
@@ -61,6 +65,11 @@ class JavalinConfig {
             path("/api/goals") {
                 get(FitnessGoalController::getAllFitnessGoals)
                 post(FitnessGoalController::addFitnessGoal)
+                path("{goal-id}"){
+                    get(FitnessGoalController::getFitnessGoalsByFitnessGoalId)
+                    delete(FitnessGoalController::deleteFitnessGoalByFitnessGoalId)
+                    patch(FitnessGoalController::updateFitnessGoal)
+                }
             }
         }
     }
