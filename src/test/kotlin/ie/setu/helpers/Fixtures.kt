@@ -1,10 +1,13 @@
 package ie.setu.helpers
 
 import ie.setu.domain.Activity
+import ie.setu.domain.FitnessGoal
 import ie.setu.domain.User
 import ie.setu.domain.db.Activities
+import ie.setu.domain.db.FitnessGoals
 import ie.setu.domain.db.Users
 import ie.setu.domain.repository.ActivityDAO
+import ie.setu.domain.repository.FitnessGoalDAO
 import ie.setu.domain.repository.UserDAO
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.joda.time.DateTime
@@ -34,6 +37,12 @@ val activities = arrayListOf<Activity>(
     Activity(id = 3, description = "Walking", duration = 12.0, calories = 120, started = DateTime.now(), userId = 2)
 )
 
+val fitnessGoals = arrayListOf<FitnessGoal>(
+    FitnessGoal(id = 1, goalType = "Weight Loss", target = "70kg", duration = "5 Days", initialUserStatus = "100kg", startDate = DateTime.now(), endDate = DateTime.now(), userId = 1),
+    FitnessGoal(id = 2, goalType = "Weight Gain", target = "170kg", duration = "5 Days", initialUserStatus = "100kg", startDate = DateTime.now(), endDate = DateTime.now(), userId = 1),
+    FitnessGoal(id = 3, goalType = "Running", target = "20km", duration = "5 hours", initialUserStatus = "0km", startDate = DateTime.now(), endDate = DateTime.now(), userId = 2),
+    )
+
 fun populateUserTable(): UserDAO {
     SchemaUtils.create(Users)
     val userDAO = UserDAO()
@@ -49,4 +58,13 @@ fun populateActivityTable(): ActivityDAO {
     activityDAO.save(activities[1])
     activityDAO.save(activities[2])
     return activityDAO
+}
+
+fun populateFitnessGoalTable(): FitnessGoalDAO {
+    SchemaUtils.create(FitnessGoals)
+    val  fitnessGoalDAO = FitnessGoalDAO()
+    fitnessGoalDAO.save(fitnessGoals[0])
+    fitnessGoalDAO.save(fitnessGoals[1])
+    fitnessGoalDAO.save(fitnessGoals[2])
+    return fitnessGoalDAO
 }
