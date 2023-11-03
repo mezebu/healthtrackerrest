@@ -56,7 +56,7 @@ object FitnessGoalController {
             val goalId = fitnessGoalDao.save(fitnessGoal)
             fitnessGoal.id = goalId
             ctx.json(fitnessGoal)
-            ctx.status(200)
+            ctx.status(201)
         } else {
             ctx.status(404)
         }

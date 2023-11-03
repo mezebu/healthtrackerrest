@@ -23,7 +23,14 @@ val updatedDuration = 30.0
 val updatedCalories = 945
 val updatedStarted = DateTime.parse("2020-06-11T05:59:27.258Z")
 
-val users = arrayListOf<User>(
+val updatedGoalType = "Dancing"
+val updatedTarget = "50kg"
+val updatedFitnessDuration = "20 hours"
+val updatedInitialUserStatus = "100"
+val updatedStartDate = DateTime.parse("2020-06-11T05:59:27.258Z")
+val updatedEndDate = DateTime.parse("2020-06-11T05:59:27.258Z")
+
+val users = arrayListOf(
     User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1),
     User(name = "Bob Cat", email = "bob@cat.ie", id = 2),
     User(name = "Mary Contrary", email = "mary@contrary.com", id = 3),
@@ -31,16 +38,16 @@ val users = arrayListOf<User>(
 )
 
 
-val activities = arrayListOf<Activity>(
+val activities = arrayListOf(
     Activity(id = 1, description = "Running", duration = 22.0, calories = 230, started = DateTime.now(), userId = 1),
     Activity(id = 2, description = "Hopping", duration = 10.5, calories = 80, started = DateTime.now(), userId = 1),
     Activity(id = 3, description = "Walking", duration = 12.0, calories = 120, started = DateTime.now(), userId = 2)
 )
 
-val fitnessGoals = arrayListOf<FitnessGoal>(
-    FitnessGoal(id = 1, goalType = "Weight Loss", target = "70kg", duration = "5 Days", initialUserStatus = "100kg", startDate = DateTime.now(), endDate = DateTime.now(), userId = 1),
-    FitnessGoal(id = 2, goalType = "Weight Gain", target = "170kg", duration = "5 Days", initialUserStatus = "100kg", startDate = DateTime.now(), endDate = DateTime.now(), userId = 1),
-    FitnessGoal(id = 3, goalType = "Running", target = "20km", duration = "5 hours", initialUserStatus = "0km", startDate = DateTime.now(), endDate = DateTime.now(), userId = 2),
+val fitnessGoals = arrayListOf(
+    FitnessGoal(id = 1, goalType = "Weight Loss", target = "70", duration = "5", initialUserStatus = "100", startDate = DateTime.now(), endDate = DateTime.now(), userId = 1),
+    FitnessGoal(id = 2, goalType = "Weight Gain", target = "170", duration = "5", initialUserStatus = "100", startDate = DateTime.now(), endDate = DateTime.now(), userId = 1),
+    FitnessGoal(id = 3, goalType = "Running", target = "20", duration = "5", initialUserStatus = "0", startDate = DateTime.now(), endDate = DateTime.now(), userId = 2),
     )
 
 fun populateUserTable(): UserDAO {
