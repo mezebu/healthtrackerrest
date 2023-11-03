@@ -35,7 +35,7 @@ class ActivityControllerTest {
                 val retrievedActivities = jsonNodeToObject<Array<Activity>>(response)
                 assertNotEquals(0, retrievedActivities.size)
             }
-            else{
+            else {
                 assertEquals(404, response.status)
             }
         }
@@ -250,26 +250,10 @@ class ActivityControllerTest {
         return Unirest.delete("$origin/api/users/$id").asString()
     }
 
-    //helper function to retrieve a test user from the database by email
-    private fun retrieveUserByEmail(email : String) : HttpResponse<String> {
-        return Unirest.get(origin + "/api/users/email/${email}").asString()
-    }
-
     //helper function to retrieve a test user from the database by id
     private fun retrieveUserById(id: Int) : HttpResponse<String> {
         return Unirest.get(origin + "/api/users/${id}").asString()
     }
-
-    //helper function to add a test user to the database
-    private fun updateUser (id: Int, name: String, email: String): HttpResponse<JsonNode> {
-        return Unirest.patch("$origin/api/users/$id")
-            .body("{\"name\":\"$name\", \"email\":\"$email\"}")
-            .asJson()
-    }
-
-
-
-
 
     //helper function to retrieve all activities
     private fun retrieveAllActivities(): HttpResponse<JsonNode> {
