@@ -88,6 +88,7 @@ object FitnessGoalController {
 
         if (fitnessGoalDao.updateByFitnessGoalId(goalId, goalToUpdate = fitnessGoal) != 0) {
             ctx.status(204)
+            ctx.json(fitnessGoal)
         } else {
             ctx.status(404)
         }
