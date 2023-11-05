@@ -23,7 +23,7 @@ class ActivityDAO {
     fun findByActivityId(id: Int): Activity?{
         return transaction {
             Activities
-                .select() { Activities.id eq id}
+                .select { Activities.id eq id}
                 .map{mapToActivity(it)}
                 .firstOrNull()
         }
@@ -51,6 +51,7 @@ class ActivityDAO {
         } get Activities.id
     }
 
+    //Update an activity by the activity id
     fun updateByActivityId(activityId: Int, activityToUpdate: Activity) : Int{
         return transaction {
             Activities.update ({
@@ -64,12 +65,14 @@ class ActivityDAO {
         }
     }
 
+    //Delete an activity by the activity id
     fun deleteByActivityId (activityId: Int): Int{
         return transaction{
             Activities.deleteWhere { Activities.id eq activityId }
         }
     }
 
+    //Delete an activity by the user's id
     fun deleteByUserId (userId: Int): Int{
         return transaction{
             Activities.deleteWhere { Activities.userId eq userId }
