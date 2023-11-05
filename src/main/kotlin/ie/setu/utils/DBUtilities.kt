@@ -2,9 +2,11 @@ package ie.setu.utils
 
 import ie.setu.domain.Activity
 import ie.setu.domain.FitnessGoal
+import ie.setu.domain.ImageInfo
 import ie.setu.domain.User
 import ie.setu.domain.db.Activities
 import ie.setu.domain.db.FitnessGoals
+import ie.setu.domain.db.ImageInfos
 import ie.setu.domain.db.Users
 import org.jetbrains.exposed.sql.ResultRow
 
@@ -32,4 +34,12 @@ fun mapToFitnessGoal(it: ResultRow) = FitnessGoal(
     startDate = it[FitnessGoals.startDate],
     endDate = it[FitnessGoals.endDate],
     userId = it[FitnessGoals.userId]
+)
+
+fun mapToImageInfo(it: ResultRow) = ImageInfo(
+    id = it[ImageInfos.id],
+    imageDescription = it[ImageInfos.imageDescription],
+    imagePath = it[ImageInfos.imagePath],
+    uploadTime = it[ImageInfos.uploadTime],
+    userId = it[ImageInfos.userId],
 )
