@@ -252,7 +252,7 @@ class FitnessGoalControllerTest {
         return Unirest.get(origin + "/api/users/${id}").asString()
     }
 
-    //helper function to add an fitness goal
+    //helper function to add a fitness goal
     private fun addFitnessGoal(
         target: String,
         goalType: String,
