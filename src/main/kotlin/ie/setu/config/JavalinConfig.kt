@@ -2,6 +2,7 @@ package ie.setu.config
 
 import ie.setu.controllers.ActivityController
 import ie.setu.controllers.FitnessGoalController
+import ie.setu.controllers.ImageInfoController
 import ie.setu.utils.jsonObjectMapper
 import ie.setu.controllers.UserController
 import io.javalin.Javalin
@@ -48,6 +49,10 @@ class JavalinConfig {
                         get(FitnessGoalController::getFitnessGoalsByUserId)
                         delete(FitnessGoalController::deleteFitnessGoalByUserId)
                     }
+                    path("images"){
+                        get(ImageInfoController::getImageInfosByUserId)
+                        delete(ImageInfoController::deleteImageInfoByUserId)
+                    }
                 }
                 path("/email/{email}"){
                     get(UserController::getUserByEmail)
@@ -69,6 +74,15 @@ class JavalinConfig {
                     get(FitnessGoalController::getFitnessGoalsByFitnessGoalId)
                     delete(FitnessGoalController::deleteFitnessGoalByFitnessGoalId)
                     patch(FitnessGoalController::updateFitnessGoal)
+                }
+            }
+            path("/api/images"){
+                get(ImageInfoController::getAllImageInfos)
+                post(ImageInfoController::addImageInfo)
+                path("{image-id}"){
+                    get(ImageInfoController::getImagesByImageInfoId)
+                    delete(ImageInfoController::deleteImageInfoByImageId)
+                    patch(ImageInfoController::updateImageInfo)
                 }
             }
         }
