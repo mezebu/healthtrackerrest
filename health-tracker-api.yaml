@@ -84,12 +84,29 @@ paths:
       responses:
         204:
           description: User activity has been successfully deleted
+  /api/users/{user-id}/goals:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/FitnessGoalIdPath'
+      responses:
+        200:
+          description: This is a specific fitness goal of a user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fitness-Goal'
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/FitnessGoalIdPath'
+      responses:
+        204:
+          description: The fitness goal of a user has been successfully deleted
           
   /api/activities:
     get:
       responses:
         200:
-          description: This is a list of users in the app
+          description: This is a list of activities in the app
           content:
             application/json:
               schema:
@@ -135,11 +152,60 @@ paths:
         204:
           description: User activity has been successfully deleted
 
+  /api/goals:
+    get:
+      responses:
+        200:
+          description: This is a list of fitness goals in the app
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fitness-Goal'
+    post:
+      description: New fitness goal added to the app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fitness-Goal'
+      responses:
+        200:
+          description: A fitness goal has been added
+  /api/goals/{goal-id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/FitnessGoalIdPath'
+      responses:
+        200:
+          description: This is a specific fitness goal of a user in the app
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fitness-Goal'
+    patch:
+      parameters:
+        - $ref: '#/components/parameters/FitnessGoalIdPath'
+      responses:
+        200:
+          description: Fitness goal has been successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fitness-Goal'
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/FitnessGoalIdPath'
+      responses:
+        204:
+          description: Fitness goal of a user has been successfully deleted
+
 components:
   parameters:
     UserIdPath:
-      in: path
       name: user-id
+      in: path
       description: user id path parameter
       required: true
       schema:
@@ -160,6 +226,14 @@ components:
       schema:
         type: integer
         example: 3232
+    FitnessGoalIdPath:
+      name: goal-id
+      description: fitness goal id path parameter
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 123
   schemas:
     User:
       type: object
@@ -179,9 +253,50 @@ components:
         id:
           type: integer
           example: 3232
-        title:
+        duration:
           type: string
           example: learning
         description:
           type: string
           example: Various forms of skill development, studying, or exploring new subjects
+        calories:
+          type: integer
+          example: 150
+        started:
+          type: string
+          format: date-time
+          example: "2023-11-05T10:00:00Z"
+        userId:
+          type: integer
+          example: 789
+    Fitness-Goal:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        goalType:
+          type: string
+          example: Weight Loss
+        target:
+          type: string
+          example: 5 Days
+        duration:
+          type: string
+          example: 3 Months
+        initialUserStatus:
+          type: string
+          example: Fit
+        startDate:
+          type: string
+          format: date-time
+          example: "2023-11-05T08:00:00Z"
+        endDate:
+          type: string
+          format: date-time
+          example: "2023-12-05T08:00:00Z"
+        userId:
+          type: integer
+          example: 456
+
+
