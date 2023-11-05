@@ -2,12 +2,15 @@ package ie.setu.helpers
 
 import ie.setu.domain.Activity
 import ie.setu.domain.FitnessGoal
+import ie.setu.domain.ImageInfo
 import ie.setu.domain.User
 import ie.setu.domain.db.Activities
 import ie.setu.domain.db.FitnessGoals
+import ie.setu.domain.db.ImageInfos
 import ie.setu.domain.db.Users
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.FitnessGoalDAO
+import ie.setu.domain.repository.ImageInfoDAO
 import ie.setu.domain.repository.UserDAO
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.joda.time.DateTime
@@ -50,6 +53,13 @@ val fitnessGoals = arrayListOf(
     FitnessGoal(id = 3, goalType = "Running", target = "20", duration = "5", initialUserStatus = "0", startDate = DateTime.now(), endDate = DateTime.now(), userId = 2),
     )
 
+val imageInfos = arrayListOf(
+    ImageInfo(id = 1, imagePath = "/home/mick.jpg", imageDescription = "An image of mick", uploadTime = DateTime.now(), userId = 1),
+    ImageInfo(id = 2, imagePath = "/home/luke.jpg", imageDescription = "An image of luke", uploadTime = DateTime.now(), userId = 1),
+    ImageInfo(id = 3, imagePath = "/home/jon.jpg", imageDescription = "An image of jon", uploadTime = DateTime.now(), userId = 2)
+
+)
+
 fun populateUserTable(): UserDAO {
     SchemaUtils.create(Users)
     val userDAO = UserDAO()
@@ -69,9 +79,18 @@ fun populateActivityTable(): ActivityDAO {
 
 fun populateFitnessGoalTable(): FitnessGoalDAO {
     SchemaUtils.create(FitnessGoals)
-    val  fitnessGoalDAO = FitnessGoalDAO()
+    val fitnessGoalDAO = FitnessGoalDAO()
     fitnessGoalDAO.save(fitnessGoals[0])
     fitnessGoalDAO.save(fitnessGoals[1])
     fitnessGoalDAO.save(fitnessGoals[2])
     return fitnessGoalDAO
+}
+
+fun populateImageInfoTable(): ImageInfoDAO {
+    SchemaUtils.create(ImageInfos)
+    val imageInfoDAO = ImageInfoDAO()
+    imageInfoDAO.save(imageInfos[0])
+    imageInfoDAO.save(imageInfos[1])
+    imageInfoDAO.save(imageInfos[2])
+    return imageInfoDAO
 }
