@@ -87,6 +87,7 @@ object ImageInfoController {
 
         if (imageInfoDao.updateByImageInfoId(imageId, imageToUpdate = imageInfo) != 0) {
             ctx.status(204)
+            ctx.json(imageInfo)
         } else {
             ctx.status(404)
         }
