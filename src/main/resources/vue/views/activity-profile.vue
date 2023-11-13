@@ -7,7 +7,7 @@
           <div class="card-body">
             <h5 class="card-title">{{activity.description}}</h5>
             <ul class="list-group">
-              <li class="list-group-item">Duration: {{activity.duration}}</li>
+              <li class="list-group-item">Duration: {{activity.duration}} minutes</li>
               <li class="list-group-item">Calories: {{activity.calories}}</li>
               <li class="list-group-item">Started: {{activity.started}}</li>
               <li class="list-group-item">User ID: {{activity.userId}}</li>
