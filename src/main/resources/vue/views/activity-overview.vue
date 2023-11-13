@@ -2,7 +2,7 @@
   <app-layout>
       <div class="row">
         <div v-for="activity in activities" :key="activity.id" class="col-md-4">
-          <a :href="`/activities/${activity.id}`">
+          <a :href="`/activities/${activity.id}`" style="text-decoration: none">
             <div class="card border-primary text-white mb-3">
               <div class="card-header bg-primary"> Activity Id: {{ activity.id }}</div>
               <div class="card-body text-primary">
