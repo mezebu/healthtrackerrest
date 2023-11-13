@@ -96,8 +96,11 @@ class JavalinConfig {
             get("/users", VueComponent("<user-overview></user-overview>"))
             get("/users/{user-id}", VueComponent("<user-profile></user-profile>"))
             get("/users/{user-id}/activities", VueComponent("<user-activity-overview></user-activity-overview>"))
+            get("/users/{user-id}/goals", VueComponent("<user-goal-overview></user-goal-overview>"))
             get("/activities", VueComponent("<activity-overview></activity-overview>"))
             get("/activities/{activity-id}", VueComponent("<activity-profile></activity-profile>"))
+            get("/goals", VueComponent("<goal-overview></goal-overview>"))
+            get("/goals/{goal-id}", VueComponent("<goal-profile></goal-profile>"))
         }
     }
 }

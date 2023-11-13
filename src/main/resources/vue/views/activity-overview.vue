@@ -3,9 +3,9 @@
       <div class="row">
         <div v-for="activity in activities" :key="activity.id" class="col-md-4">
           <a :href="`/activities/${activity.id}`" style="text-decoration: none">
-            <div class="card border-primary text-white mb-3">
-              <div class="card-header bg-primary"> Activity Id: {{ activity.id }}</div>
-              <div class="card-body text-primary">
+            <div class="card border-success text-white mb-3">
+              <div class="card-header bg-success"> Activity Id: {{ activity.id }}</div>
+              <div class="card-body text-success">
                 <h5 class="card-title">{{activity.description}}</h5>
               </div>
             </div>

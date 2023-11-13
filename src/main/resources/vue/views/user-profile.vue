@@ -14,6 +14,10 @@
       <br>
       <a :href="`/users/${user.id}/activities`">View User Activities</a>
     </dt>
+    <dt v-if="user">
+      <br>
+      <a :href="`/users/${user.id}/goals`">View User Fitness Goals</a>
+    </dt>
   </div>
   </app-layout>
 </template>

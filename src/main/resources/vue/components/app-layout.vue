@@ -21,6 +21,9 @@
             <li class="nav-item active">
               <a class="nav-link" href="/activities">Activities</a>
             </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/goals">Fitness Goals</a>
+            </li>
           </ul>
         </div>
         </div>
