@@ -17,7 +17,7 @@
                 Users <span class="sr-only">(current)</span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
               <a class="nav-link" href="/activities">Activities</a>
             </li>
           </ul>
