@@ -1,11 +1,9 @@
-<template id="user-activity-overview">
+<template id="activity-profile">
   <app-layout>
-  <div>
-    <h3 class="mb-3">Activities list </h3>
-    <div class="row">
-      <div v-for="activity in activities" class="col-lg-6">
+    <div>
+      <div v-if="activity">
         <div class="card border-success mb-3" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-          <div class="card-header"> Activity Id: {{ activity.id }}</div>
+          <div class="card-header bg-success text-white"> Activity Id: {{ activity.id }}</div>
           <div class="card-body">
             <h5 class="card-title">{{activity.description}}</h5>
             <ul class="list-group">
@@ -18,21 +16,21 @@
         </div>
       </div>
     </div>
-  </div>
   </app-layout>
 </template>
 
 <script>
-app.component("user-activity-overview",{
-  template: "#user-activity-overview",
+app.component("activity-profile", {
+  template: "#activity-profile",
   data: () => ({
-    activities: [],
+    activity: null
   }),
-  created() {
-    const userId = this.$javalin.pathParams["user-id"];
-    axios.get(`/api/users/${userId}/activities`)
-        .then(res => this.activities = res.data)
-        .catch(() => alert("Error while fetching activities"));
+  created: function () {
+    const activityId = this.$javalin.pathParams["activity-id"]
+    const url = `/api/activities/${activityId}`
+    axios.get(url)
+        .then(res => this.activity = res.data)
+        .catch(() => alert("Error while fetching activity" + activityId))
   }
-});
+})
 </script>
