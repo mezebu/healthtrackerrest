@@ -104,7 +104,6 @@ app.component("user-profile", {
           .catch((error) => { console.log(error) })
       alert("User Updated")
     },
-
     deleteUser: function () {
       if (confirm("Do you really want to delete?")) {
         const userId = this.$javalin.pathParams["user-id"];
