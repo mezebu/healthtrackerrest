@@ -169,7 +169,7 @@ class UserDAOTest {
                 val userDAO = populateUserTable()
 
                 //Act & Assert
-                val user3Updated = User(3, "new username", "new@email.ie")
+                val user3Updated = User(3, "new username", "new@email.ie", "image/home", 20)
                 userDAO.update(user3.id, user3Updated)
                 assertEquals(user3Updated, userDAO.findById(3))
             }
@@ -183,7 +183,7 @@ class UserDAOTest {
                 val userDAO = populateUserTable()
 
                 //Act & Assert
-                val user4Updated = User(4, "new username", "new@email.ie")
+                val user4Updated = User(4, "new username", "new@email.ie", "image/home", 31)
                 userDAO.update(4, user4Updated)
                 assertEquals(null, userDAO.findById(4))
                 assertEquals(3, userDAO.getAll().size)
