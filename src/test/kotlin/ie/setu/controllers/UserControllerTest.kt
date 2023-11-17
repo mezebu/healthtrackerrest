@@ -109,6 +109,8 @@ class UserControllerTest {
             val retrievedUser : User = jsonToObject(addResponse.body.toString())
             assertEquals(validEmail, retrievedUser.email)
             assertEquals(validName, retrievedUser.name)
+            assertEquals(validAge, retrievedUser.age)
+            assertEquals(validImagePath, retrievedUser.imagePath)
 
             //After - restore the db to previous state by deleting the added user
             val deleteResponse = deleteUser(retrievedUser.id)
