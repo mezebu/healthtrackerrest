@@ -61,7 +61,7 @@ class UserControllerTest {
         fun `getting a user by id when id exists, returns a 200 response`() {
 
             //Arrange - add the user
-            val addResponse = addUser(validName, validEmail, validAge, validImagePath)
+            val addResponse = addUser(validName, validEmail)
             val addedUser : User = jsonToObject(addResponse.body.toString())
 
             //Assert - retrieve the added user from the database and verify return code
@@ -76,7 +76,7 @@ class UserControllerTest {
         fun `getting a user by email when email exists, returns a 200 response`() {
 
             //Arrange - add the user
-            addUser(validName, validEmail, validAge, validImagePath)
+            addUser(validName, validEmail)
 
             //Assert - retrieve the added user from the database and verify return code
             val retrieveResponse = retrieveUserByEmail(validEmail)
@@ -98,7 +98,7 @@ class UserControllerTest {
 
             //Arrange & Act & Assert
             //    add the user and verify return code (using fixture data)
-            val addResponse = addUser(validName, validEmail, validAge, validImagePath)
+            val addResponse = addUser(validName, validEmail)
             assertEquals(201, addResponse.status)
 
             //Assert - retrieve the added user from the database and verify return code
@@ -109,8 +109,6 @@ class UserControllerTest {
             val retrievedUser : User = jsonToObject(addResponse.body.toString())
             assertEquals(validEmail, retrievedUser.email)
             assertEquals(validName, retrievedUser.name)
-            assertEquals(validAge, retrievedUser.age)
-            assertEquals(validImagePath, retrievedUser.imagePath)
 
             //After - restore the db to previous state by deleting the added user
             val deleteResponse = deleteUser(retrievedUser.id)
@@ -126,11 +124,11 @@ class UserControllerTest {
         fun `updating a user when it exists, returns a 204 response`() {
 
             //Arrange - add the user that we plan to do an update on
-            val addedResponse = addUser(validName, validEmail, validAge, validImagePath)
+            val addedResponse = addUser(validName, validEmail)
             val addedUser : User = jsonToObject(addedResponse.body.toString())
 
             //Act & Assert - update the email and name of the retrieved user and assert 204 is returned
-            assertEquals(204, updateUser(addedUser.id, updatedName, updatedEmail, updatedAge, updatedImagePath).status)
+            assertEquals(204, updateUser(addedUser.id, updatedName, updatedEmail).status)
 
             //Act & Assert - retrieve updated user and assert details are correct
             val updatedUserResponse = retrieveUserById(addedUser.id)
@@ -146,7 +144,7 @@ class UserControllerTest {
         fun `updating a user when it doesn't exist, returns a 404 response`() {
 
             //Act & Assert - attempt to update the email and name of user that doesn't exist
-            assertEquals(404, updateUser(-1, updatedName, updatedEmail, updatedAge, updatedImagePath).status)
+            assertEquals(404, updateUser(-1, updatedName, updatedEmail).status)
         }
 
     }
@@ -164,7 +162,7 @@ class UserControllerTest {
         fun `deleting a user when it exists, returns a 204 response`() {
 
             //Arrange - add the user that we plan to do a deleted on
-            val addedResponse = addUser(validName, validEmail, validAge, validImagePath)
+            val addedResponse = addUser(validName, validEmail)
             val addedUser : User = jsonToObject(addedResponse.body.toString())
 
             //Act & Assert - delete the added user and assert a 204 is returned
@@ -180,9 +178,9 @@ class UserControllerTest {
 
 
     //helper function to add a test user to the database
-    private fun addUser (name: String, email: String, age: Int, imagePath: String): HttpResponse<JsonNode> {
+    private fun addUser (name: String, email: String): HttpResponse<JsonNode> {
         return Unirest.post("$origin/api/users")
-            .body("{\"name\":\"$name\", \"email\":\"$email\", \"age\":\"$age\", \"imagePath\":\"$imagePath\"}")
+            .body("{\"name\":\"$name\", \"email\":\"$email\"}")
             .asJson()
     }
 
@@ -202,9 +200,9 @@ class UserControllerTest {
     }
 
     //helper function to add a test user to the database
-    private fun updateUser (id: Int, name: String, email: String, age: String, imagePath: String): HttpResponse<JsonNode> {
+    private fun updateUser (id: Int, name: String, email: String): HttpResponse<JsonNode> {
         return Unirest.patch("$origin/api/users/$id")
-            .body("{\"name\":\"$name\", \"email\":\"$email\", \"age\":\"$age\", \"imagePath\":\"$imagePath\"}")
+            .body("{\"name\":\"$name\", \"email\":\"$email\"}")
             .asJson()
     }
 }

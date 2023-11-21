@@ -18,12 +18,9 @@ import org.joda.time.DateTime
  val nonExistingEmail = "112233445566778testUser@xxxxx.xx"
  val validName = "Test User 1"
  val validEmail = "testuser1@test.com"
- val validAge = 30
- val validImagePath = "image/home"
+
  val updatedName = "Updated Name"
  val updatedEmail = "Updated Email"
- val updatedAge = "Updated Age"
- val updatedImagePath = "Updated Image"
 
 val updatedDescription = "Updated Description"
 val updatedDuration = 30.0
@@ -38,10 +35,10 @@ val updatedStartDate = DateTime.parse("2020-06-11T05:59:27.258Z")
 val updatedEndDate = DateTime.parse("2020-06-11T05:59:27.258Z")
 
 val users = arrayListOf(
-    User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1, age = 20, imagePath = "image/home"),
-    User(name = "Bob Cat", email = "bob@cat.ie", id = 2, age = 30, imagePath = "image/home"),
-    User(name = "Mary Contrary", email = "mary@contrary.com", id = 3, age = 31, imagePath = "image/home"),
-    User(name = "Carol Singer", email = "carol@singer.com", id = 4, age = 32, imagePath = "image/home")
+    User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1),
+    User(name = "Bob Cat", email = "bob@cat.ie", id = 2),
+    User(name = "Mary Contrary", email = "mary@contrary.com", id = 3),
+    User(name = "Carol Singer", email = "carol@singer.com", id = 4)
 )
 
 
