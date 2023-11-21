@@ -24,7 +24,7 @@
         <div class="card">
           <h5 class="card-header">Total Fitness Goals</h5>
           <div class="card-body">
-            <h5 class="card-title">{{goals.length}} activities</h5>
+            <h5 class="card-title">{{goals.length}} fitness goals</h5>
             <a href="/goals" class="btn btn-primary">More Details...</a>
           </div>
         </div>
