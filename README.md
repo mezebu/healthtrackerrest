@@ -141,3 +141,78 @@ The application uses the following database tables:
 - `startDate`: Start date of the goal
 - `endDate`: End date of the goal
 - `userId`: References `Users.id` (On delete, cascade)
+
+### Data Access Objects (DAO)
+
+#### ActivityDAO
+
+The `ActivityDAO` class in `ie.setu.domain.repository` handles database operations related to activities:
+
+```kotlin
+package ie.setu.domain.repository
+
+import ie.setu.domain.Activity
+import ie.setu.domain.db.Activities
+import ie.setu.utils.mapToActivity
+// ... (other imports)
+
+class ActivityDAO {
+    // ... (methods for fetching, adding, updating, and deleting activities)
+}
+```
+
+#### FitnessGoalDAO
+
+The `FitnessGoalDAO` class in `ie.setu.domain.repository` manages database interactions concerning fitness goals:
+
+```kotlin
+package ie.setu.domain.repository
+
+import ie.setu.domain.FitnessGoal
+import ie.setu.domain.db.FitnessGoals
+import ie.setu.utils.mapToFitnessGoal
+// ... (other imports)
+
+class FitnessGoalDAO {
+    // ... (methods for fetching, adding, updating, and deleting fitness goals)
+}
+```
+
+#### UserDAO
+
+The `UserDAO` class in `ie.setu.domain.repository` is responsible for handling user-related database operations:
+
+```kotlin
+package ie.setu.domain.repository
+
+import ie.setu.domain.User
+import ie.setu.domain.db.Users
+import ie.setu.utils.mapToUser
+// ... (other imports)
+
+class UserDAO {
+    // ... (methods for fetching, adding, updating, and deleting users)
+}
+```
+
+## Conclusion
+
+The Health Tracker REST project offers a robust RESTful API for managing health-related data, including user details, activities, fitness goals, and image information. Leveraging Javalin, a lightweight web framework for Kotlin, this API provides a streamlined approach to interact with and manage health-related information.
+
+### Key Features
+
+- **User Management**: Comprehensive functionality to manage user profiles, including retrieval, creation, updating, and deletion.
+- **Activity Tracking**: Efficient tracking and management of various activities, such as duration, calories burned, and activity descriptions.
+- **Fitness Goals**: Capability to set, update, and track fitness goals, including target types, durations, and progress tracking.
+- **Image Information**: Ability to manage image-related details, such as descriptions, paths, and upload timestamps.
+
+### Data Access Objects (DAO)
+
+The project incorporates dedicated Data Access Objects (DAO) for distinct entities—Activities, Fitness Goals, and Users. These DAO classes centralize database interactions, offering methods for seamless operations like fetching, adding, updating, and deleting records for each entity.
+
+### Get Started
+
+To explore and utilize this Health Tracker REST API, follow the setup instructions detailed in the project's documentation. The provided DAO classes streamline database interactions and serve as a foundation for managing health-related data effectively.
+
+This API stands as a robust solution for health management applications, providing a structured and accessible backend for diverse health-oriented services and applications.
+
