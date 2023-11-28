@@ -151,11 +151,6 @@ The `ActivityDAO` class in `ie.setu.domain.repository` handles database operatio
 ```kotlin
 package ie.setu.domain.repository
 
-import ie.setu.domain.Activity
-import ie.setu.domain.db.Activities
-import ie.setu.utils.mapToActivity
-// ... (other imports)
-
 class ActivityDAO {
     // ... (methods for fetching, adding, updating, and deleting activities)
 }
@@ -168,11 +163,6 @@ The `FitnessGoalDAO` class in `ie.setu.domain.repository` manages database inter
 ```kotlin
 package ie.setu.domain.repository
 
-import ie.setu.domain.FitnessGoal
-import ie.setu.domain.db.FitnessGoals
-import ie.setu.utils.mapToFitnessGoal
-// ... (other imports)
-
 class FitnessGoalDAO {
     // ... (methods for fetching, adding, updating, and deleting fitness goals)
 }
@@ -184,11 +174,6 @@ The `UserDAO` class in `ie.setu.domain.repository` is responsible for handling u
 
 ```kotlin
 package ie.setu.domain.repository
-
-import ie.setu.domain.User
-import ie.setu.domain.db.Users
-import ie.setu.utils.mapToUser
-// ... (other imports)
 
 class UserDAO {
     // ... (methods for fetching, adding, updating, and deleting users)
