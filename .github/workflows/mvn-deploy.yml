@@ -17,6 +17,7 @@ jobs:
           cache: 'maven'
       - name: Maven Package
         run: mvn -B clean package -DskipTests
+
   test:
     name: Maven Tests
     needs: package
@@ -31,18 +32,16 @@ jobs:
           cache: 'maven'
       - name: Maven Verify
         run: mvn -B clean verify
+        
   deploy:
     name: Railway Deploy
     needs: test
     runs-on: ubuntu-latest  
     
     steps:
-       - name: Install Railway
-         run: npm i -g @railway/cli
        - uses: actions/checkout@v3
        - uses: devtomio/action-railway@v1.1.4
-    
-       - name: Deploy
-         run: railway up
+         name: Deploy to Railway
          env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }} 
+    
