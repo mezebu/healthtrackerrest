@@ -18,18 +18,34 @@
 <script>
 app.component("activity-overview", {
   template: "#activity-overview",
-  data: () => ({
-    activities: [],
-  }),
+  data() {
+    return {
+      activities: [],
+    };
+  },
   created() {
     this.fetchActivities();
   },
   methods: {
-    fetchActivities: function () {
-      axios.get("api/activities")
-          .then(res => this.activities = res.data)
-          .catch(() => alert("Error while fetching activities"))
-    }
-  }
-})
+    async fetchActivities() {
+      try {
+        const response = await axios.get("api/activities");
+        this.activities = response.data;
+      } catch (error) {
+        alert("Error while fetching activities");
+      }
+    },
+  },
+});
 </script>
+
+<style>
+.card {
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+</style>
