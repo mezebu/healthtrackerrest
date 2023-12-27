@@ -92,6 +92,10 @@ app.component("user-overview", {
     itemsPerPage: 5,
     currentPage: 1,
   }),
+  created() {
+    this.fetchUsers();
+    this.paginatedUsers()
+  },
   computed: {
     totalUsers: function () {
       return this.users.length;
@@ -104,9 +108,6 @@ app.component("user-overview", {
       const endIndex = startIndex + this.itemsPerPage;
       return this.users.slice(startIndex, endIndex);
     },
-  },
-  created() {
-    this.fetchUsers();
   },
   methods: {
     fetchUsers: function () {
