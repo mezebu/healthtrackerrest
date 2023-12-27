@@ -24,29 +24,31 @@
       </div>
       <div class="card-body">
         <form v-if="user">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="input-user-id">User ID</span>
+          <div class="form-group row">
+            <label for="input-user-id" class="col-sm-2 col-form-label">User ID</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" v-model="user.id" name="id" readonly>
             </div>
-            <input type="number" class="form-control" v-model="user.id" name="id" readonly placeholder="Id"/>
           </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="input-user-name">Name</span>
+          <div class="form-group row">
+            <label for="input-user-name" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" v-model="user.name" name="name" placeholder="Name">
             </div>
-            <input type="text" class="form-control" v-model="user.name" name="name" placeholder="Name"/>
           </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="input-user-email">Email</span>
+          <div class="form-group row">
+            <label for="input-user-email" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+              <input type="email" class="form-control" v-model="user.email" name="email" placeholder="Email">
             </div>
-            <input type="email" class="form-control" v-model="user.email" name="email" placeholder="Email"/>
           </div>
         </form>
       </div>
+
       <div class="card-footer text-left">
         <p  v-if="activities.length === 0"> {{user.name}} has not engaged in any activities yet.</p>
-        <p  v-if="activities.length > 0"> {{user.name}}'s activities so far...</p>
+        <p  v-if="activities.length > 0"> {{user.name}}'s activities and fitness goals so far...</p>
+
         <div class="row">
           <div v-for="activity in activities" class="col-lg-6">
             <div class="card border-success mb-3" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
@@ -58,6 +60,24 @@
                   <li class="list-group-item">Calories: {{activity.calories}}</li>
                   <li class="list-group-item">Started: {{activity.started}}</li>
                   <li class="list-group-item">User ID: {{activity.userId}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div v-for="goal in goals" class="col-lg-6">
+            <div class="card border-info mb-3" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+              <div class="card-header"> Fitness Goal Id: {{ goal.id }}</div>
+              <div class="card-body">
+                <h5 class="card-title"> Goal Type: {{goal.goalType}}</h5>
+                <ul class="list-group">
+                  <li class="list-group-item">Target: {{goal.target}}</li>
+                  <li class="list-group-item">Duration: {{goal.duration}}</li>
+                  <li class="list-group-item">User Status: {{goal.initialUserStatus}}</li>
+                  <li class="list-group-item">Start Date: {{goal.startDate}}</li>
+                  <li class="list-group-item">End Date: {{goal.endDate}}</li>
+                  <li class="list-group-item">User ID: {{goal.userId}}</li>
                 </ul>
               </div>
             </div>
@@ -75,6 +95,7 @@ app.component("user-profile", {
     user: null,
     noUserFound: false,
     activities: [],
+    goals: [],
   }),
   created: function () {
     const userId = this.$javalin.pathParams["user-id"];
@@ -90,6 +111,9 @@ app.component("user-profile", {
         .catch(error => {
           console.log("No activities added yet (this is ok): " + error)
         })
+    axios.get(url + `/goals`)
+        .then(res => this.goals = res.data)
+        .catch(error => { console.log("No fitness goals yet" + error)})
   },
   methods: {
     updateUser: function () {
