@@ -52,7 +52,16 @@
         <div class="row">
           <div v-for="activity in activities" class="col-lg-6">
             <div class="card border-success mb-3" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-              <div class="card-header"> Activity Id: {{ activity.id }}</div>
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <div> Activity Id: {{ activity.id }}</div>
+                <div>
+                  <a :href="`/activities/${activity.id}`">
+                    <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link mx-1">
+                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </button>
+                  </a>
+                </div>
+              </div>
               <div class="card-body">
                 <h5 class="card-title">{{activity.description}}</h5>
                 <ul class="list-group">
@@ -68,7 +77,17 @@
         <div class="row">
           <div v-for="goal in goals" class="col-lg-6">
             <div class="card border-info mb-3" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-              <div class="card-header"> Fitness Goal Id: {{ goal.id }}</div>
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <div>Fitness Goal Id: {{ goal.id }}</div>
+                <div>
+                  <a :href="`/goals/${goal.id}`">
+                    <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link mx-1">
+                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </button>
+                  </a>
+                </div>
+              </div>
+
               <div class="card-body">
                 <h5 class="card-title"> Goal Type: {{goal.goalType}}</h5>
                 <ul class="list-group">
