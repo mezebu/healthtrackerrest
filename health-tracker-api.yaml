@@ -9,6 +9,7 @@ info:
 paths:
   /api/users:
     get:
+      summary: Get all users
       responses:
         200:
           description: This is a list of users in the app
@@ -19,6 +20,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
     post:
+      summary: Add a user
       description: Add a user to the app
       requestBody:
         content:
@@ -28,19 +30,21 @@ paths:
       responses:
         200:
           description: The user has been created
-                
+
   /api/users/{user-id}:
     get:
+      summary: Get a specific user
       parameters:
         - $ref: '#/components/parameters/UserIdPath'
-      responses: 
-        200: 
+      responses:
+        200:
           description: This is a specific user in the app
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
     patch:
+      summary: Update a user
       parameters:
         - $ref: '#/components/parameters/UserIdPath'
       responses:
@@ -51,6 +55,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
     delete:
+      summary: Delete a specific user
       parameters:
         - $ref: '#/components/parameters/UserIdPath'
       responses:
@@ -58,6 +63,7 @@ paths:
           description: User deleted successfully
   /api/users/email/{email}:
     get:
+      summary: Get user by email
       parameters:
         - $ref: '#/components/parameters/EmailIdPath'
       responses:
@@ -69,6 +75,7 @@ paths:
                 $ref: '#/components/schemas/User'
   /api/users/{user-id}/activities:
     get:
+      summary: Get activities for a specific user
       parameters:
         - $ref: '#/components/parameters/UserIdPath'
       responses:
@@ -79,6 +86,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Activity'
     delete:
+      summary: Delete an activity for a specific user
       parameters:
         - $ref: '#/components/parameters/UserIdPath'
       responses:
@@ -86,6 +94,7 @@ paths:
           description: User activity has been successfully deleted
   /api/users/{user-id}/goals:
     get:
+      summary: Get fitness goals for a specific user
       parameters:
         - $ref: '#/components/parameters/FitnessGoalIdPath'
       responses:
@@ -96,14 +105,35 @@ paths:
               schema:
                 $ref: '#/components/schemas/Fitness-Goal'
     delete:
+      summary: Delete fitness goal for a specific user
       parameters:
         - $ref: '#/components/parameters/FitnessGoalIdPath'
       responses:
         204:
           description: The fitness goal of a user has been successfully deleted
+  /api/users/{user-id}/images:
+    get:
+      summary: Get images of a specific user
+      parameters:
+        - $ref: '#/components/parameters/ImageIdPath'
+      responses:
+        200:
+          description: This is a specific image of a user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageInfo'
+    delete:
+      summary: Delete image of a specific user
+      parameters:
+        - $ref: '#/components/parameters/ImageIdPath'
+      responses:
+        204:
+          description: The image of a user has been successfully deleted
           
   /api/activities:
     get:
+      summary: Retrieve all activities
       responses:
         200:
           description: This is a list of activities in the app
@@ -114,6 +144,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Activity'
     post:
+      summary: Add a new activity
       description: New activity added to the app
       requestBody:
         content:
@@ -126,6 +157,7 @@ paths:
           
   /api/activities/{activity-id}:
     get:
+      summary: Get a specific activity
       parameters:
         - $ref: '#/components/parameters/ActivityIdPath'
       responses:
@@ -136,6 +168,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Activity'
     patch:
+      summary: Update an activity
       parameters:
         - $ref: '#/components/parameters/ActivityIdPath'
       responses:
@@ -146,6 +179,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Activity'
     delete:
+      summary: Delete an activity
       parameters:
         - $ref: '#/components/parameters/ActivityIdPath'
       responses:
@@ -154,6 +188,7 @@ paths:
 
   /api/goals:
     get:
+      summary: Retrieve all fitness goals
       responses:
         200:
           description: This is a list of fitness goals in the app
@@ -164,6 +199,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Fitness-Goal'
     post:
+      summary: Add a new fitness goal
       description: New fitness goal added to the app
       requestBody:
         content:
@@ -175,6 +211,7 @@ paths:
           description: A fitness goal has been added
   /api/goals/{goal-id}:
     get:
+      summary: Get a specific fitness goal
       parameters:
         - $ref: '#/components/parameters/FitnessGoalIdPath'
       responses:
@@ -185,6 +222,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Fitness-Goal'
     patch:
+      summary: Update a fitness goal
       parameters:
         - $ref: '#/components/parameters/FitnessGoalIdPath'
       responses:
@@ -195,11 +233,69 @@ paths:
               schema:
                 $ref: '#/components/schemas/Fitness-Goal'
     delete:
+      summary: Delete a fitness goal
       parameters:
         - $ref: '#/components/parameters/FitnessGoalIdPath'
       responses:
         204:
           description: Fitness goal of a user has been successfully deleted
+
+  /api/images:
+    get:
+      summary: Get all image information
+      operationId: getAllImageInfos
+      responses:
+        '200':
+          description: A list of image information
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageInfo'
+
+    post:
+      summary: Add image information
+      operationId: addImageInfo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageInfo'
+      responses:
+        '200':
+          description: Image information has been added
+
+  /api/images/{image-id}:
+      get:
+        summary: Get information of an image
+        parameters:
+          - $ref: '#/components/parameters/ImageIdPath'
+        responses:
+          200:
+            description: This is a specific image of a user in the app
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ImageInfo'
+      patch:
+        summary: Update an image
+        parameters:
+          - $ref: '#/components/parameters/ImageIdPath'
+        responses:
+          200:
+            description: Image has been successfully updated
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ImageInfo'
+      delete:
+        summary: Delete an image
+        parameters:
+          - $ref: '#/components/parameters/ImageIdPath'
+        responses:
+          204:
+            description: Image of a user has been successfully deleted
 
 components:
   parameters:
@@ -229,6 +325,14 @@ components:
     FitnessGoalIdPath:
       name: goal-id
       description: fitness goal id path parameter
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 123
+    ImageIdPath:
+      name: image-id
+      description: image id path parameter
       in: path
       required: true
       schema:
@@ -298,5 +402,25 @@ components:
         userId:
           type: integer
           example: 456
+    ImageInfo:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 123
+          title:
+            type: string
+            example: "Sunset at the beach"
+          description:
+            type: string
+            example: "A beautiful view of the sunset at the beach"
+          imageUrl:
+            type: string
+            format: uri
+            example: "https://example.com/images/sunset.jpg"
+          uploadedAt:
+            type: string
+            format: date-time
+            example: "2023-12-28T18:30:00Z"
 
 
