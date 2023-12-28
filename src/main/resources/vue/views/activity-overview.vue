@@ -27,7 +27,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-activity-duration">Duration</span>
             </div>
-            <input type="text" class="form-control" v-model="formData.duration" name="duration" placeholder="Duration"/>
+            <input type="number" class="form-control" v-model="formData.duration" name="duration" placeholder="Duration"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -39,7 +39,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-activity-started">Started</span>
             </div>
-            <input type="date" class="form-control" v-model="formData.started" name="started" placeholder="Started"/>
+            <input type="datetime-local" class="form-control" v-model="formData.started" name="started" placeholder="Started"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
