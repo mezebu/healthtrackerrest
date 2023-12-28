@@ -101,6 +101,7 @@ class JavalinConfig {
             get("/activities/{activity-id}", VueComponent("<activity-profile></activity-profile>"))
             get("/goals", VueComponent("<goal-overview></goal-overview>"))
             get("/goals/{goal-id}", VueComponent("<goal-profile></goal-profile>"))
+            get("/images", VueComponent("<image-overview></image-overview>"))
         }
     }
 }
