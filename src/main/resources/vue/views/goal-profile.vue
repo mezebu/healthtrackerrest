@@ -1,6 +1,9 @@
 <template id="goal-profile">
   <app-layout>
-    <div>
+    <div v-if="loading">
+      <loading-spinner></loading-spinner>
+    </div>
+    <div v-else>
       <div v-if="goal">
         <div class="card border-info mb-3">
           <div class="card-header bg-info text-white"> Goal Id: {{ goal.id }}</div>
@@ -25,14 +28,24 @@
 app.component("goal-profile", {
   template: "#goal-profile",
   data: () => ({
-    goal: null
+    goal: null,
+    loading: false,
   }),
   created: function () {
     const goalId = this.$javalin.pathParams["goal-id"]
     const url = `/api/goals/${goalId}`
+
+    this.loading = true;
+
     axios.get(url)
-        .then(res => this.goal = res.data)
-        .catch(() => alert("Error while fetching goal " + goalId))
+        .then(res => {
+          this.goal = res.data;
+          this.loading = false;
+        })
+        .catch(() => {
+          this.loading = false;
+          alert("Error while fetching goal " + goalId);
+        })
   }
 })
 </script>

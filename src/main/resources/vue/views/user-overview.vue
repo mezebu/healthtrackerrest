@@ -1,5 +1,10 @@
 <template id="user-overview">
   <app-layout>
+    <!-- Loading spinner -->
+    <div class="mt-50" v-if="loading">
+      <loading-spinner></loading-spinner>
+    </div>
+  <div v-else>
     <div class="card bg-light mb-3">
       <div class="card-header">
         <div class="row">
@@ -43,7 +48,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(user, index) in paginatedUsers" :key="index">
+      <tr v-for="(user, index) in paginatedComponent" :key="index">
         <td class="text-center">{{ user.name }}</td>
         <td class="text-center">{{ user.email }}</td>
         <td class="text-center">
@@ -61,24 +66,14 @@
       </tbody>
     </table>
 
-    <nav aria-label="User Pagination">
-      <ul class="pagination justify-content-center mt-3">
-        <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-          <a class="page-link" href="#" aria-label="Previous" @click="prevPage">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item" v-for="page in totalPages" :key="page"
-            :class="{ 'active': currentPage === page }">
-          <a class="page-link" href="#" @click="setPage(page)">{{ page }}</a>
-        </li>
-        <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-          <a class="page-link" href="#" aria-label="Next" @click="nextPage">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <pagination-component
+        :current-page="currentPage"
+        :total-pages="totalPages"
+        :change-page="changePage"
+        :previous-page="previousPage"
+        :next-page="nextPage"
+    ></pagination-component>
+    </div>
   </app-layout>
 </template>
 
@@ -89,31 +84,36 @@ app.component("user-overview", {
     users: [],
     formData: { name: "", email: "" },
     hideForm: true,
-    itemsPerPage: 5,
     currentPage: 1,
+    pageSize: 5,
+    loading: false,
   }),
   created() {
     this.fetchUsers();
-    this.paginatedUsers()
   },
   computed: {
-    totalUsers: function () {
-      return this.users.length;
-    },
-    totalPages: function () {
-      return Math.ceil(this.totalUsers / this.itemsPerPage);
-    },
-    paginatedUsers: function () {
-      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
+    paginatedComponent() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
       return this.users.slice(startIndex, endIndex);
+    },
+    totalPages() {
+      return Math.ceil(this.users.length / this.pageSize);
     },
   },
   methods: {
     fetchUsers: function () {
+      this.loading = true;
+
       axios.get("/api/users")
-          .then(res => this.users = res.data)
-          .catch(() => alert("Error while fetching users"));
+          .then(res => {
+            this.users = res.data;
+            this.loading = false;
+          })
+          .catch(() => {
+            this.loading = false;
+            alert("Error while fetching users");
+          });
     },
 
     deleteUser: function (user, index) {
@@ -145,19 +145,17 @@ app.component("user-overview", {
           })
     },
 
-    setPage: function (page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
-      }
+    changePage(page) {
+      this.currentPage = page;
     },
-    nextPage: function () {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage++;
-      }
-    },
-    prevPage: function () {
+    previousPage() {
       if (this.currentPage > 1) {
         this.currentPage--;
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
       }
     },
   },

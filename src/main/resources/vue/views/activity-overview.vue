@@ -1,100 +1,98 @@
 <template id="activity-overview">
   <app-layout>
-    <div class="card bg-light mb-3">
-     <div class="card-header">
-      <div class="row">
-        <div class="col-6">
-          Activities
-        </div>
-        <div class="col" align="right">
-          <button rel="tooltip" title="Add"
-                  class="btn btn-info btn-simple btn-link"
-                  @click="hideForm = !hideForm">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
+    <!-- Loading spinner -->
+    <div class="mt-50" v-if="loading">
+      <loading-spinner></loading-spinner>
     </div>
-      <div class="card-body" :class="{ 'd-none': hideForm}">
-        <form id="addActivity">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="input-activity-name">Description</span>
-            </div>
-            <input type="text" class="form-control" v-model="formData.description" name="description" placeholder="Description"/>
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="input-activity-duration">Duration</span>
-            </div>
-            <input type="number" class="form-control" v-model="formData.duration" name="duration" placeholder="Duration"/>
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="input-activity-calories">Calories</span>
-            </div>
-            <input type="text" class="form-control" v-model="formData.calories" name="calories" placeholder="Calories"/>
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="input-activity-started">Started</span>
-            </div>
-            <input type="datetime-local" class="form-control" v-model="formData.started" name="started" placeholder="Started"/>
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="input-userId-started">User Id</span>
-            </div>
-            <input type="number" class="form-control" v-model="formData.userId" name="userId" placeholder="User Id"/>
-          </div>
-        </form>
-        <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addActivity()">Add Activity</button>
-      </div>
-    </div>
-    <table class="table table-bordered table-striped table-hover">
-      <thead>
-      <tr>
-        <th scope="col" class="text-center">Activity ID</th>
-        <th scope="col" class="text-center">Description</th>
-        <th scope="col" class="text-center">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="(activity, index) in paginatedActivities" :key="index">
-        <td class="text-center">{{ activity.id }}</td>
-        <td class="text-center">{{ activity.description }}</td>
-        <td class="text-center">
-          <a :href="`/activities/${activity.id}`">
-            <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link mx-1">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </button>
-            <button rel="tooltip" title="Delete" class="btn btn-info btn-simple btn-link"
-                    @click="deleteActivity(activity, index)">
-              <i class="fas fa-trash" aria-hidden="true"></i>
-            </button>
-          </a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
 
-    <nav aria-label="Activity Pagination">
-      <ul class="pagination justify-content-center mt-3">
-        <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-          <a class="page-link" href="#" aria-label="Previous" @click="prevPage">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item" v-for="page in totalPages" :key="page" :class="{ 'active': currentPage === page }">
-          <a class="page-link" href="#" @click="setPage(page)">{{ page }}</a>
-        </li>
-        <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-          <a class="page-link" href="#" aria-label="Next" @click="nextPage">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <div v-else>
+      <div class="card bg-light mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-6">
+              Activities
+            </div>
+            <div class="col" align="right">
+              <button rel="tooltip" title="Add"
+                      class="btn btn-info btn-simple btn-link"
+                      @click="hideForm = !hideForm">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" :class="{ 'd-none': hideForm}">
+          <form id="addActivity">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="input-activity-name">Description</span>
+              </div>
+              <input type="text" class="form-control" v-model="formData.description" name="description" placeholder="Description"/>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="input-activity-duration">Duration</span>
+              </div>
+              <input type="number" class="form-control" v-model="formData.duration" name="duration" placeholder="Duration"/>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="input-activity-calories">Calories</span>
+              </div>
+              <input type="text" class="form-control" v-model="formData.calories" name="calories" placeholder="Calories"/>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="input-activity-started">Started</span>
+              </div>
+              <input type="datetime-local" class="form-control" v-model="formData.started" name="started" placeholder="Started"/>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="input-userId-started">User Id</span>
+              </div>
+              <input type="number" class="form-control" v-model="formData.userId" name="userId" placeholder="User Id"/>
+            </div>
+          </form>
+          <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addActivity()">Add Activity</button>
+        </div>
+      </div>
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <tr>
+          <th scope="col" class="text-center">Activity ID</th>
+          <th scope="col" class="text-center">Description</th>
+          <th scope="col" class="text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(activity, index) in paginatedComponent" :key="index">
+          <td class="text-center">{{ activity.id }}</td>
+          <td class="text-center">{{ activity.description }}</td>
+          <td class="text-center">
+            <a :href="`/activities/${activity.id}`">
+              <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link mx-1">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </button>
+              <button rel="tooltip" title="Delete" class="btn btn-info btn-simple btn-link"
+                      @click="deleteActivity(activity, index)">
+                <i class="fas fa-trash" aria-hidden="true"></i>
+              </button>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <pagination-component
+          :current-page="currentPage"
+          :total-pages="totalPages"
+          :change-page="changePage"
+          :previous-page="previousPage"
+          :next-page="nextPage"
+      ></pagination-component>
+    </div>
+
   </app-layout>
 </template>
 
@@ -106,7 +104,8 @@ app.component("activity-overview", {
       activities: [],
       formData: { description: "", duration: "", calories: "", started: "", userId: "" },
       currentPage: 1,
-      itemsPerPage: 5,
+      pageSize: 5,
+      loading: true,
       hideForm: true
     };
   },
@@ -114,13 +113,13 @@ app.component("activity-overview", {
     this.fetchActivities();
   },
   computed: {
-    paginatedActivities() {
-      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
+    paginatedComponent() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
       return this.activities.slice(startIndex, endIndex);
     },
     totalPages() {
-      return Math.ceil(this.activities.length / this.itemsPerPage);
+      return Math.ceil(this.activities.length / this.pageSize);
     },
   },
   methods: {
@@ -130,6 +129,8 @@ app.component("activity-overview", {
         this.activities = response.data;
       } catch (error) {
         alert("Error while fetching activities");
+      } finally {
+        this.loading = false;
       }
     },
     addActivity: function() {
@@ -162,17 +163,17 @@ app.component("activity-overview", {
             });
       }
     },
-    setPage(page) {
+    changePage(page) {
       this.currentPage = page;
+    },
+    previousPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
-      }
-    },
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
       }
     },
   },
