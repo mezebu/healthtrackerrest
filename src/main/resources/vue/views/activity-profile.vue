@@ -120,7 +120,6 @@ app.component("activity-profile", {
             })
             .catch(err => {
               console.error('Error deleting activity:', err);
-              // Handle error or show a message to the user
             });
       }
     }
