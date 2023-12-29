@@ -8,7 +8,7 @@
       <div class="card-header">
         <div class="row">
           <div class="col-6"> User Profile </div>
-          <div class="col" align="right">
+          <div class="col" style="text-align: right;">
             <button rel="tooltip" title="Update"
                     class="btn btn-info btn-simple btn-link mx-1"
                     @click="updateUser()">
