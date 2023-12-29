@@ -1,0 +1,237 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > JavalinConfig</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">ie.setu.config</a>
+</div>
+
+<h1>Coverage Summary for Class: JavalinConfig (ie.setu.config)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JavalinConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (18/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.5%
+  </span>
+  <span class="absValue">
+    (64/65)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">JavalinConfig$startJavalinService$app$2$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.5%
+  </span>
+  <span class="absValue">
+    (65/66)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package ie.setu.config
+&nbsp;
+&nbsp;import ie.setu.controllers.ActivityController
+&nbsp;import ie.setu.controllers.FitnessGoalController
+&nbsp;import ie.setu.controllers.ImageInfoController
+&nbsp;import ie.setu.utils.jsonObjectMapper
+&nbsp;import ie.setu.controllers.UserController
+&nbsp;import io.javalin.Javalin
+&nbsp;import io.javalin.apibuilder.ApiBuilder.*
+&nbsp;import io.javalin.json.JavalinJackson
+&nbsp;import io.javalin.vue.VueComponent
+&nbsp;
+<b class="fc">&nbsp;class JavalinConfig {</b>
+&nbsp;
+&nbsp;    fun startJavalinService(): Javalin {
+&nbsp;
+<b class="fc">&nbsp;        val app = Javalin.create{</b>
+&nbsp;            //added this jsonMapper for our integration tests - serialise objects to json
+<b class="fc">&nbsp;            it.jsonMapper(JavalinJackson(jsonObjectMapper()))</b>
+<b class="fc">&nbsp;            it.staticFiles.enableWebjars()</b>
+<b class="fc">&nbsp;            it.vue.vueAppName = &quot;app&quot; // only required for Vue 3, is defined in layout.html</b>
+<b class="fc">&nbsp;        }.apply {</b>
+<b class="fc">&nbsp;            exception(Exception::class.java) { e, _ -&gt; e.printStackTrace() }</b>
+<b class="fc">&nbsp;            error(404) { ctx -&gt; ctx.json(&quot;404 : Not Found&quot;) }</b>
+<b class="fc">&nbsp;        }.start(getRemoteAssignedPort())</b>
+&nbsp;
+<b class="fc">&nbsp;        registerRoutes(app)</b>
+<b class="fc">&nbsp;        return app</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun getRemoteAssignedPort(): Int {
+<b class="fc">&nbsp;        val remotePort = System.getenv(&quot;PORT&quot;)</b>
+<b class="fc">&nbsp;        return if (remotePort != null){</b>
+<b class="nc">&nbsp;            Integer.parseInt(remotePort)</b>
+<b class="fc">&nbsp;        } else 7000</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun registerRoutes(app: Javalin) {
+<b class="fc">&nbsp;        app.routes {</b>
+<b class="fc">&nbsp;            path(&quot;/api/users&quot;) {</b>
+<b class="fc">&nbsp;                get(UserController::getAllUsers)</b>
+<b class="fc">&nbsp;                post(UserController::addUser)</b>
+<b class="fc">&nbsp;                path(&quot;{user-id}&quot;){</b>
+<b class="fc">&nbsp;                    get(UserController::getUserByUserId)</b>
+<b class="fc">&nbsp;                    delete(UserController::deleteUser)</b>
+<b class="fc">&nbsp;                    patch(UserController::updateUser)</b>
+<b class="fc">&nbsp;                    path(&quot;activities&quot;){</b>
+<b class="fc">&nbsp;                        get(ActivityController::getActivitiesByUserId)</b>
+<b class="fc">&nbsp;                        delete(ActivityController::deleteActivityByUserId)</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    path(&quot;goals&quot;) {</b>
+<b class="fc">&nbsp;                        get(FitnessGoalController::getFitnessGoalsByUserId)</b>
+<b class="fc">&nbsp;                        delete(FitnessGoalController::deleteFitnessGoalByUserId)</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    path(&quot;images&quot;){</b>
+<b class="fc">&nbsp;                        get(ImageInfoController::getImageInfosByUserId)</b>
+<b class="fc">&nbsp;                        delete(ImageInfoController::deleteImageInfoByUserId)</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="fc">&nbsp;                path(&quot;/email/{email}&quot;){</b>
+<b class="fc">&nbsp;                    get(UserController::getUserByEmail)</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            path(&quot;/api/activities&quot;) {</b>
+<b class="fc">&nbsp;                get(ActivityController::getAllActivities)</b>
+<b class="fc">&nbsp;                post(ActivityController::addActivity)</b>
+<b class="fc">&nbsp;                path(&quot;{activity-id}&quot;){</b>
+<b class="fc">&nbsp;                    get(ActivityController::getActivitiesByActivityId)</b>
+<b class="fc">&nbsp;                    delete(ActivityController::deleteActivityByActivityId)</b>
+<b class="fc">&nbsp;                    patch(ActivityController::updateActivity)</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            path(&quot;/api/goals&quot;) {</b>
+<b class="fc">&nbsp;                get(FitnessGoalController::getAllFitnessGoals)</b>
+<b class="fc">&nbsp;                post(FitnessGoalController::addFitnessGoal)</b>
+<b class="fc">&nbsp;                path(&quot;{goal-id}&quot;){</b>
+<b class="fc">&nbsp;                    get(FitnessGoalController::getFitnessGoalsByFitnessGoalId)</b>
+<b class="fc">&nbsp;                    delete(FitnessGoalController::deleteFitnessGoalByFitnessGoalId)</b>
+<b class="fc">&nbsp;                    patch(FitnessGoalController::updateFitnessGoal)</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            path(&quot;/api/images&quot;){</b>
+<b class="fc">&nbsp;                get(ImageInfoController::getAllImageInfos)</b>
+<b class="fc">&nbsp;                post(ImageInfoController::addImageInfo)</b>
+<b class="fc">&nbsp;                path(&quot;{image-id}&quot;){</b>
+<b class="fc">&nbsp;                    get(ImageInfoController::getImagesByImageInfoId)</b>
+<b class="fc">&nbsp;                    delete(ImageInfoController::deleteImageInfoByImageId)</b>
+<b class="fc">&nbsp;                    patch(ImageInfoController::updateImageInfo)</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;            // The @routeComponent that we added in layout.html earlier will be replaced
+&nbsp;            // by the String inside the VueComponent. This means a call to / will load
+&nbsp;            // the layout and display our &lt;home-page&gt; component.
+<b class="fc">&nbsp;            get(&quot;/&quot;, VueComponent(&quot;&lt;home-page&gt;&lt;/home-page&gt;&quot;))</b>
+<b class="fc">&nbsp;            get(&quot;/users&quot;, VueComponent(&quot;&lt;user-overview&gt;&lt;/user-overview&gt;&quot;))</b>
+<b class="fc">&nbsp;            get(&quot;/users/{user-id}&quot;, VueComponent(&quot;&lt;user-profile&gt;&lt;/user-profile&gt;&quot;))</b>
+<b class="fc">&nbsp;            get(&quot;/users/{user-id}/activities&quot;, VueComponent(&quot;&lt;user-activity-overview&gt;&lt;/user-activity-overview&gt;&quot;))</b>
+<b class="fc">&nbsp;            get(&quot;/users/{user-id}/goals&quot;, VueComponent(&quot;&lt;user-goal-overview&gt;&lt;/user-goal-overview&gt;&quot;))</b>
+<b class="fc">&nbsp;            get(&quot;/activities&quot;, VueComponent(&quot;&lt;activity-overview&gt;&lt;/activity-overview&gt;&quot;))</b>
+<b class="fc">&nbsp;            get(&quot;/activities/{activity-id}&quot;, VueComponent(&quot;&lt;activity-profile&gt;&lt;/activity-profile&gt;&quot;))</b>
+<b class="fc">&nbsp;            get(&quot;/goals&quot;, VueComponent(&quot;&lt;goal-overview&gt;&lt;/goal-overview&gt;&quot;))</b>
+<b class="fc">&nbsp;            get(&quot;/goals/{goal-id}&quot;, VueComponent(&quot;&lt;goal-profile&gt;&lt;/goal-profile&gt;&quot;))</b>
+<b class="fc">&nbsp;            get(&quot;/images&quot;, VueComponent(&quot;&lt;image-overview&gt;&lt;/image-overview&gt;&quot;))</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-29 08:56</div>
+</div>
+</body>
+</html>

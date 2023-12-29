@@ -1,0 +1,213 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ImageInfoController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">ie.setu.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: ImageInfoController (ie.setu.controllers)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ImageInfoController</td>
+<td class="coverageStat">
+  <span class="percent">
+    12.5%
+  </span>
+  <span class="absValue">
+    (1/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4.8%
+  </span>
+  <span class="absValue">
+    (2/42)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ImageInfoController$addImageInfo$$inlined$jsonToObject$1</td>
+  </tr>
+  <tr>
+    <td class="name">ImageInfoController$updateImageInfo$$inlined$jsonToObject$1</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    12.5%
+  </span>
+  <span class="absValue">
+    (1/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4.8%
+  </span>
+  <span class="absValue">
+    (2/42)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package ie.setu.controllers
+&nbsp;
+&nbsp;import ie.setu.domain.ImageInfo
+&nbsp;import ie.setu.domain.repository.ImageInfoDAO
+&nbsp;import ie.setu.domain.repository.UserDAO
+&nbsp;import ie.setu.utils.jsonToObject
+&nbsp;import io.javalin.http.Context
+&nbsp;
+&nbsp;object ImageInfoController {
+&nbsp;
+<b class="fc">&nbsp;    private val userDao = UserDAO()</b>
+<b class="fc">&nbsp;    private val imageInfoDao = ImageInfoDAO()</b>
+&nbsp;
+&nbsp;    fun getAllImageInfos(ctx: Context) {
+<b class="nc">&nbsp;        val imageInfos = imageInfoDao.getAll()</b>
+<b class="nc">&nbsp;        if(imageInfos.size != 0) {</b>
+<b class="nc">&nbsp;            ctx.status(200)</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            ctx.status(404)</b>
+&nbsp;        }
+<b class="nc">&nbsp;        ctx.json(imageInfos)</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    fun getImageInfosByUserId(ctx: Context) {
+<b class="nc">&nbsp;        val userId = userDao.findById(ctx.pathParam(&quot;user-id&quot;).toInt())</b>
+<b class="nc">&nbsp;        val imageInfos = imageInfoDao.findInfoByUserId(ctx.pathParam(&quot;user-id&quot;).toInt())</b>
+&nbsp;
+<b class="nc">&nbsp;        if (userId != null) {</b>
+<b class="nc">&nbsp;            if (imageInfos.isNotEmpty()) {</b>
+<b class="nc">&nbsp;                ctx.json(imageInfos)</b>
+<b class="nc">&nbsp;                ctx.status(200)</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                ctx.status(404)</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            ctx.status(404)</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    fun getImagesByImageInfoId(ctx: Context) {
+<b class="nc">&nbsp;        val imageInfo = imageInfoDao.findByImageInfoId(ctx.pathParam(&quot;image-id&quot;).toInt())</b>
+<b class="nc">&nbsp;        if (imageInfo != null) {</b>
+<b class="nc">&nbsp;            ctx.json(imageInfo)</b>
+<b class="nc">&nbsp;            ctx.status(200)</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            ctx.status(404)</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    fun addImageInfo(ctx: Context) {
+<b class="nc">&nbsp;        val imageInfo: ImageInfo = jsonToObject(ctx.body())</b>
+<b class="nc">&nbsp;        val userId = userDao.findById(imageInfo.userId)</b>
+&nbsp;
+<b class="nc">&nbsp;        if (userId != null) {</b>
+<b class="nc">&nbsp;            val imageId = imageInfoDao.save(imageInfo)</b>
+<b class="nc">&nbsp;            imageInfo.id = imageId</b>
+<b class="nc">&nbsp;            ctx.json(imageInfo)</b>
+<b class="nc">&nbsp;            ctx.status(201)</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            ctx.status(404)</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    fun deleteImageInfoByImageId(ctx: Context) {
+<b class="nc">&nbsp;        val imageId = ctx.pathParam(&quot;image-id&quot;).toInt()</b>
+&nbsp;
+<b class="nc">&nbsp;        if(imageInfoDao.deleteByImageId(imageId) != 0) {</b>
+<b class="nc">&nbsp;            ctx.status(204)</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            ctx.status(404)</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    fun deleteImageInfoByUserId(ctx: Context) {
+<b class="nc">&nbsp;        val userId = ctx.pathParam(&quot;user-id&quot;).toInt()</b>
+&nbsp;
+<b class="nc">&nbsp;        if (imageInfoDao.deleteInfoByUserId(userId) != 0) {</b>
+<b class="nc">&nbsp;            ctx.status(204)</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            ctx.status(404)</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    fun updateImageInfo(ctx: Context) {
+<b class="nc">&nbsp;        val imageInfo: ImageInfo = jsonToObject(ctx.body())</b>
+<b class="nc">&nbsp;        val imageId = ctx.pathParam(&quot;image-id&quot;).toInt()</b>
+&nbsp;
+<b class="nc">&nbsp;        if (imageInfoDao.updateByImageInfoId(imageId, imageToUpdate = imageInfo) != 0) {</b>
+<b class="nc">&nbsp;            ctx.status(204)</b>
+<b class="nc">&nbsp;            ctx.json(imageInfo)</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            ctx.status(404)</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-29 08:56</div>
+</div>
+</body>
+</html>
