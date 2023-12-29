@@ -2,13 +2,13 @@
   <app-layout>
     <div v-if="noActivityFound">
       <p>We're sorry, we were not able to retrieve this Activity.</p>
-      <p>View <a :href="'/users'">all users</a>.</p>
+      <p>View <a :href="'/activities'">all activities</a>.</p>
     </div>
     <div class="card bg-light mb-3" v-if="!noActivityFound">
       <div class="card-header">
         <div class="row">
           <div class="col-6">User Activity</div>
-          <div class="col" align="right">
+          <div class="col" style="text-align: right;">
             <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link mx-1" @click="updateActivity()">
               <i class="far fa-save" aria-hidden="true"></i>
             </button>
