@@ -123,15 +123,18 @@ app.component("activity-overview", {
     },
   },
   methods: {
-    async fetchActivities() {
-      try {
-        const response = await axios.get("api/activities");
-        this.activities = response.data;
-      } catch (error) {
-        alert("Error while fetching activities");
-      } finally {
-        this.loading = false;
-      }
+     fetchActivities: function() {
+       this.loading = true;
+
+       axios.get("api/activities")
+           .then(res => {
+             this.activities = res.data;
+             this.loading = false;
+           })
+           .catch(() => {
+         this.loading = false;
+         alert("Error while fetching activities");
+       });
     },
     addActivity: function() {
       const url = `/api/activities`;
@@ -157,7 +160,7 @@ app.component("activity-overview", {
         const url = `/api/activities/${activityId}`;
         axios.delete(url)
             .then(response =>
-                this.users.splice(index, 1).push(response.data))
+                this.activities.splice(index, 1).push(response.data))
             .catch(function (error) {
               console.log(error)
             });
